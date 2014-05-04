@@ -34,7 +34,7 @@ public class PreferencesManager {
 
     String rawValue = mSharedPreferences.getString(keyPath.getPath(), null);
     if (rawValue == null) {
-      return null;
+      return key.createDefaultObject();
     }
 
     return mGson.fromJson(rawValue, objectType);
@@ -42,6 +42,14 @@ public class PreferencesManager {
 
   public <V> Optional<V> loadOptional(PrefKey<V> key) {
     return Optional.fromNullable(load(key));
+  }
+
+  public boolean isPrefNull(PrefKey key) {
+    return mSharedPreferences.getString(key.getKeyPath().getPath(), null) == null;
+  }
+
+  public boolean isPrefPresent(PrefKey key) {
+    return mSharedPreferences.contains(key.getKeyPath().getPath());
   }
 
   public Editor edit() {

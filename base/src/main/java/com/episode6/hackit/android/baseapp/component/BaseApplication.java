@@ -9,8 +9,6 @@ import com.episode6.hackit.android.app.scope.ContextScope;
 import com.episode6.hackit.android.appmonitor.ActivityCollector;
 import com.episode6.hackit.android.baseapp.module.BaseApplicationModule;
 import com.episode6.hackit.android.inject.Injectors;
-import com.episode6.hackit.chop.Chop;
-import com.episode6.hackit.chop.android.AndroidDebugTree;
 import com.episode6.hackit.inject.HasInjectorScope;
 import com.episode6.hackit.inject.Injector;
 import com.google.common.collect.ImmutableList;
@@ -48,9 +46,6 @@ public class BaseApplication extends Application implements HasInjectorScope {
   @Override
   public void onCreate() {
     super.onCreate();
-
-    //TODO: THIS SHOULD BE IN DEBUG CODE ONLY!!!
-    Chop.plantTree(new AndroidDebugTree());
 
     mInjector = Injectors.createFrom(this);
     getInjector().inject(this);

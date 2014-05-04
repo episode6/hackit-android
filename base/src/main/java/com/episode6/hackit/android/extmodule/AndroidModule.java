@@ -25,17 +25,6 @@ import dagger.Provides;
 public class AndroidModule {
 
   @Provides
-  SharedPreferences provideDefaultSharedPreferences(@ForApplication Context context) {
-    return PreferenceManager.getDefaultSharedPreferences(context);
-  }
-
-  @Provides
-  @Singleton
-  PackageManager providePackageManager(@ForApplication Context context) {
-    return context.getPackageManager();
-  }
-
-  @Provides
   PackageInfo providePackageInfo(@ForApplication Context context, PackageManager packageManager) {
     try {
       return packageManager.getPackageInfo(context.getPackageName(), 0);

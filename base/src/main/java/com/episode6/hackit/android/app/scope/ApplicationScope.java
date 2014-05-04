@@ -2,6 +2,9 @@ package com.episode6.hackit.android.app.scope;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.preference.PreferenceManager;
 
 import com.episode6.hackit.android.annotation.ForApplication;
 
@@ -30,5 +33,15 @@ public class ApplicationScope {
   @Provides @Singleton @ForApplication
   Context provideApplicationContext(Application application) {
     return application;
+  }
+
+  @Provides @Singleton
+  SharedPreferences provideSharedPreferences(Application application) {
+    return PreferenceManager.getDefaultSharedPreferences(application);
+  }
+
+  @Provides @Singleton
+  PackageManager providePackageManager(Application application) {
+    return application.getPackageManager();
   }
 }

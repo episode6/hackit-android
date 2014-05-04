@@ -20,4 +20,8 @@ dependencies {
   compile(httpDeps.okHttp) {
     transitive = true
   }
+
+  compile(httpDeps.retrofit) {
+    transitive = true
+  }
 }

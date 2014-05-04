@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 
 import com.episode6.hackit.android.app.HasContext;
 import com.episode6.hackit.android.app.events.FragmentEvents;
-import com.episode6.hackit.inject.HasInjector;
-import com.episode6.hackit.inject.Injector;
 import com.episode6.hackit.android.inject.InjectorContextWrapper;
 import com.episode6.hackit.android.inject.Injectors;
+import com.episode6.hackit.inject.HasInjector;
+import com.episode6.hackit.inject.Injector;
 import com.squareup.otto.Bus;
 
 import javax.annotation.Nullable;
@@ -35,10 +35,11 @@ public abstract class BaseFragment extends Fragment implements HasInjector, HasC
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
     mInjector = Injectors.maybePlusFrom(getActivity(), this);
     mContext = InjectorContextWrapper.maybeWrapContext(getActivity(), this);
     getInjector().inject(this);
+
+    super.onCreate(savedInstanceState);
 
     mBus.post(new FragmentEvents.OnCreate(this, savedInstanceState));
   }

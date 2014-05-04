@@ -47,10 +47,10 @@ public class BaseApplication extends Application implements HasInjectorScope {
 
   @Override
   public void onCreate() {
-    super.onCreate();
-
     mInjector = Injectors.createFrom(this);
     getInjector().inject(this);
+
+    super.onCreate();
   }
 
   @Override

@@ -36,9 +36,10 @@ public abstract class BaseActionBarFragmentActivity extends ActionBarActivity
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
     mInjector = Injectors.plusFrom(getApplicationContext(), this);
     getInjector().inject(this);
+
+    super.onCreate(savedInstanceState);
 
     mBus.post(new ActivityEvents.OnCreate(this, savedInstanceState));
   }

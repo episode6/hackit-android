@@ -36,12 +36,4 @@ public class PrefKeyPath {
         .ofType(type)
         .build();
   }
-
-  public PrefKey<String> addStringKey(String name) {
-    return addNullableKey(name, String.class);
-  }
-
-  public PrefKey<Integer> addIntKey(String name) {
-    return addNullableKey(name, Integer.class);
-  }
 }

@@ -24,10 +24,24 @@ public class PrefKeyPath {
     return new PrefKeyPath(mPath, newPathSegment);
   }
 
-  public <V> PrefKey<V> addKey(String name, Class<V> type) {
+  public <V> PrefKeyBuilder<V> addKey(String name, Class<V> type) {
+    return new PrefKeyBuilder<V>(this)
+        .named(name)
+        .ofType(type);
+  }
+
+  public <V> PrefKey<V> addNullableKey(String name, Class<V> type) {
     return new PrefKeyBuilder<V>(this)
         .named(name)
         .ofType(type)
         .build();
+  }
+
+  public PrefKey<String> addStringKey(String name) {
+    return addNullableKey(name, String.class);
+  }
+
+  public PrefKey<Integer> addIntKey(String name) {
+    return addNullableKey(name, Integer.class);
   }
 }

@@ -11,12 +11,12 @@ public class PrefKeyBuilder<V> {
     mBaseKeyPath = basePath;
   }
 
-  public PrefKeyBuilder<V> name(String name) {
+  public PrefKeyBuilder<V> named(String name) {
     mPrefName = name;
     return this;
   }
 
-  public PrefKeyBuilder<V> name(Class<V> objectType) {
+  public PrefKeyBuilder<V> ofType(Class<V> objectType) {
     mObjectType = objectType;
     return this;
   }

@@ -15,6 +15,8 @@ import javax.inject.Singleton;
 @Singleton
 public class PreferencesManager {
 
+  public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
+
   private final SharedPreferences mSharedPreferences;
   private final Gson mGson;
 
@@ -50,8 +52,9 @@ public class PreferencesManager {
 
     private final Map<PrefKey, Object> mPendingPuts = Maps.newHashMap();
 
-    public <V> void put(PrefKey<V> key, V value) {
+    public <V> Editor put(PrefKey<V> key, V value) {
       mPendingPuts.put(key, value);
+      return this;
     }
 
     public void commit() {

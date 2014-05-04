@@ -13,7 +13,7 @@ public class PrefKeyPath {
   }
 
   PrefKeyPath(String pathBase, String lastPathSegment) {
-    this(StringFormat.of(EXTENSION_FORMAT, lastPathSegment));
+    this(StringFormat.of(EXTENSION_FORMAT, pathBase, lastPathSegment));
   }
 
   public String getPath() {
@@ -22,5 +22,12 @@ public class PrefKeyPath {
 
   public PrefKeyPath extend(String newPathSegment) {
     return new PrefKeyPath(mPath, newPathSegment);
+  }
+
+  public <V> PrefKey<V> addKey(String name, Class<V> type) {
+    return new PrefKeyBuilder<V>(this)
+        .named(name)
+        .ofType(type)
+        .build();
   }
 }

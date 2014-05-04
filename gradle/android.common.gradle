@@ -1,0 +1,26 @@
+apply from: "${rootDir}/hackit-android/gradle/common.gradle"
+
+android {
+  compileSdkVersion 19
+  buildToolsVersion "19.0.1"
+
+  defaultConfig {
+    minSdkVersion 9
+    targetSdkVersion 19
+  }
+
+  lintOptions {
+    disable 'InvalidPackage'
+  }
+
+  // IntelliJ Hack - This + the instrumentTestCompile depenencied in robolectric.test.gradle lets
+  // unit tests work correctly in intelliJ. It will probably make integration tests fail, but we'll
+  // cross that bridge when we get to it
+  sourceSets {
+    androidTest.setRoot('src/test')
+  }
+}
+
+dependencies {
+  provided(commonDeps.daggerCompiler)
+}

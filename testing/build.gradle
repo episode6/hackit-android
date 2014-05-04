@@ -1,0 +1,30 @@
+apply plugin: 'java'
+apply from: "${rootDir}/hackit-android/gradle/common.gradle"
+
+dependencies {
+  compile(commonDeps.daggerCompiler)
+  compile(commonDeps.dagger)
+  compile(commonDeps.guava)
+  compile(commonDeps.chopCore)
+
+  compile(androidSdks.v16)
+  compile files(testOnlyDeps.robolectricJar)
+  compile project(":hackit-android:inject")
+
+  compile(commonDeps.jsr305) {
+    transitive = true
+  }
+  compile(testOnlyDeps.junit) {
+    transitive = true
+  }
+  compile(testOnlyDeps.fest) {
+    transitive = true
+  }
+  compile(testOnlyDeps.festAndroid) {
+    transitive = true
+  }
+  compile(testOnlyDeps.mockito) {
+    transitive = true
+  }
+
+}

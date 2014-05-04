@@ -1,0 +1,54 @@
+apply plugin: 'android-library'
+apply from: "${rootDir}/hackit-android/gradle/android.common.gradle"
+apply from: "${rootDir}/hackit-android/gradle/robolectric.test.gradle"
+
+android {
+
+  defaultConfig {
+    versionCode 1
+    versionName "1.0"
+  }
+  buildTypes {
+    release {
+      runProguard false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+    }
+  }
+}
+
+dependencies {
+  compile project(":hackit-android:inject")
+  compile(commonDeps.dagger) {
+    transitive = true
+  }
+  compile(commonDeps.chopCore) {
+    transitive = true
+  }
+  compile(commonDeps.chopAndroid) {
+    transitive = true
+  }
+  compile(commonDeps.otto) {
+    transitive = true
+  }
+  compile(commonDeps.butterKnife) {
+    transitive = true
+  }
+  compile(commonDeps.guava) {
+    transitive = true
+  }
+  compile(commonDeps.gson) {
+    transitive = true
+  }
+  compile(commonDeps.jsr305) {
+    transitive = true
+  }
+  compile(commonDeps.supportV4) {
+    transitive = true
+  }
+  compile(commonDeps.appCompatV7) {
+    transitive = true
+  }
+  compile(commonDeps.gridLayoutV7) {
+    transitive = true
+  }
+}

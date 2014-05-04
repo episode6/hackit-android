@@ -1,0 +1,43 @@
+ext {
+  dagger_version = "1.2.1"
+  android_support_version = "19.0.1"
+  chop_version = "0.1.1"
+
+  commonDeps = [
+      daggerCompiler:"com.squareup.dagger:dagger-compiler:${dagger_version}",
+      dagger:"com.squareup.dagger:dagger:${dagger_version}",
+
+      supportV4:"com.android.support:support-v4:${android_support_version}",
+      appCompatV7:"com.android.support:appcompat-v7:${android_support_version}",
+      gridLayoutV7:"com.android.support:gridlayout-v7:${android_support_version}",
+
+      chopCore:"com.episode6.hackit.chop:chop-core:${chop_version}",
+      chopAndroid:"com.episode6.hackit.chop:chop-android:${chop_version}",
+
+      otto:"com.squareup:otto:1.3.4",
+      butterKnife:"com.jakewharton:butterknife:4.0.1",
+      guava:"com.google.guava:guava:15.0",
+      gson:"com.google.code.gson:gson:2.2.4",
+      jsr305:"net.sourceforge.findbugs:jsr305:1.3.7"
+  ]
+
+  uiDeps = [
+      picasso:"com.squareup.picasso:picasso:2.2.0"
+  ]
+
+  androidSdks = [
+      v16:"com.google.android:android:4.1.1.4",
+      v14:"com.google.android:android:4.0.1.2",
+      v10:"com.google.android:android:2.3.3",
+      v9:"com.google.android:android:2.3.1",
+      v8:"com.google.android:android:2.2.1",
+  ]
+
+  testOnlyDeps = [
+      robolectricJar:"${rootDir}/hackit-android/testing/libs/robolectric-2.3-20140220.000228-125-jar-with-dependencies.jar",
+      junit:"junit:junit:4.11",
+      fest:"org.easytesting:fest-assert-core:2.0M10",
+      festAndroid:"com.squareup:fest-android:1.0.7",
+      mockito:"org.mockito:mockito-all:1.9.5"
+  ]
+}

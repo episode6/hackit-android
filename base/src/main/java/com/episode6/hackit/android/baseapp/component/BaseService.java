@@ -6,9 +6,13 @@ import android.content.Intent;
 import android.os.IBinder;
 
 import com.episode6.hackit.android.app.HasContext;
+import com.episode6.hackit.android.app.scope.ContextScope;
+import com.episode6.hackit.android.app.scope.ServiceScope;
+import com.episode6.hackit.android.baseapp.module.BaseServiceModule;
 import com.episode6.hackit.android.inject.Injectors;
 import com.episode6.hackit.inject.HasInjectorScope;
 import com.episode6.hackit.inject.Injector;
+import com.google.common.collect.ImmutableList;
 
 import java.util.List;
 
@@ -28,12 +32,16 @@ public class BaseService extends Service implements HasInjectorScope {
 
   @Override
   public List<Object> getModules() {
-    return null;
+    return ImmutableList.of(
+        new ContextScope(this),
+        new ServiceScope(this),
+        new BaseServiceModule());
   }
+
 
   @Override
   public Injector getInjector() {
-    return null;
+    return mInjector;
   }
 
   @Override

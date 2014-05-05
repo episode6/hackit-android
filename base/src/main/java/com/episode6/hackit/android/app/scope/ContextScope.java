@@ -3,6 +3,7 @@ package com.episode6.hackit.android.app.scope;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.view.LayoutInflater;
 
 import com.episode6.hackit.android.app.HasContext;
@@ -43,5 +44,10 @@ public class ContextScope {
       return ((Activity)context).getLayoutInflater();
     }
     return (LayoutInflater.from(context).cloneInContext(context));
+  }
+
+  @Provides
+  AssetManager provideAssetManager(Context context) {
+    return context.getAssets();
   }
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
 import android.preference.PreferenceManager;
 
 import com.episode6.hackit.android.annotation.ForApplication;
@@ -43,5 +44,10 @@ public class ApplicationScope {
   @Provides @Singleton
   PackageManager providePackageManager(Application application) {
     return application.getPackageManager();
+  }
+
+  @Provides @Singleton
+  AudioManager provideAudioManager(Application application) {
+    return (AudioManager) application.getSystemService(Context.AUDIO_SERVICE);
   }
 }

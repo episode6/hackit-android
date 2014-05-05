@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.view.inputmethod.InputMethodManager;
@@ -23,6 +24,11 @@ import dagger.Provides;
     library = true,
     includes = {ApplicationScope.class})
 public class AndroidModule {
+
+  @Provides
+  MediaPlayer provideMediaPlayer() {
+    return new MediaPlayer();
+  }
 
   @Provides
   PackageInfo providePackageInfo(@ForApplication Context context, PackageManager packageManager) {

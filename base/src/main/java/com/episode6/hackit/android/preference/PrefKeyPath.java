@@ -24,16 +24,23 @@ public class PrefKeyPath {
     return new PrefKeyPath(mPath, newPathSegment);
   }
 
-  public <V> PrefKeyBuilder<V> addKey(String name, Class<V> type) {
-    return new PrefKeyBuilder<V>(this)
-        .named(name)
-        .ofType(type);
+  public <V> PrefKeyBuilder<V> key(String name, Class<V> type) {
+    return new PrefKeyBuilder<V>(this, name, type);
   }
 
-  public <V> PrefKey<V> addNullableKey(String name, Class<V> type) {
-    return new PrefKeyBuilder<V>(this)
-        .named(name)
-        .ofType(type)
-        .build();
+  public <V> PrefKey<V> nullKey(String name, Class<V> type) {
+    return new PrefKeyBuilder<V>(this, name, type).build();
+  }
+
+  public PrefKeyBuilder<Boolean> boolKey(String name) {
+    return new PrefKeyBuilder<Boolean>(this, name, Boolean.class);
+  }
+
+  public PrefKeyBuilder<Integer> intKey(String name) {
+    return new PrefKeyBuilder<Integer>(this, name, Integer.class);
+  }
+
+  public PrefKeyBuilder<String> stringKey(String name) {
+    return new PrefKeyBuilder<String>(this, name, String.class);
   }
 }

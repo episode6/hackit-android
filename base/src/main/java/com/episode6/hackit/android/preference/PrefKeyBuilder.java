@@ -3,28 +3,23 @@ package com.episode6.hackit.android.preference;
 public class PrefKeyBuilder<V> {
 
   private final PrefKeyPath mBaseKeyPath;
+  private final String mPrefName;
+  private final Class<V> mObjectType;
 
-  private String mPrefName;
-  private Class<V> mObjectType;
   private V mDefaultInstance = null;
 
-  PrefKeyBuilder(PrefKeyPath basePath) {
+  PrefKeyBuilder(
+      PrefKeyPath basePath,
+      String name,
+      Class<V> objectType) {
     mBaseKeyPath = basePath;
-  }
-
-  public PrefKeyBuilder<V> named(String name) {
     mPrefName = name;
-    return this;
-  }
-
-  public PrefKeyBuilder<V> ofType(Class<V> objectType) {
     mObjectType = objectType;
-    return this;
   }
 
-  public PrefKeyBuilder<V> defaultTo(V defaultInstance) {
+  public PrefKey<V> defaultTo(V defaultInstance) {
     mDefaultInstance = defaultInstance;
-    return this;
+    return build();
   }
 
   public PrefKey<V> build() {

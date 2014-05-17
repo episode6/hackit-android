@@ -47,17 +47,9 @@ public class GsonPrefKey {
 
     @Nullable
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> T retrieveObject(Key key, SharedPreferences sharedPreferences) {
-      String keyPath = key.getKeyPath().getPath();
-      Key<T> trueKey = (Key<T>)key;
-
-      if (!sharedPreferences.contains(keyPath)) {
-        return trueKey.createDefaultObject();
-      }
-
-      String rawValue = sharedPreferences.getString(keyPath, null);
-      return mGson.fromJson(rawValue, trueKey.getObjectType());
+    public Object retrieveObject(Key key, SharedPreferences sharedPreferences) {
+      String rawValue = sharedPreferences.getString(key.getKeyPath().getPath(), null);
+      return mGson.fromJson(rawValue, key.getObjectType());
     }
   }
 }

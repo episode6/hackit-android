@@ -15,5 +15,5 @@ public interface PrefKeyTranslator<V extends PrefKey> {
    * However, since the only call-site of this method should be the PreferencesManager itself
    * we'll consider such casting as safe.
    */
-  @Nullable <T> T retrieveObject(V key, SharedPreferences sharedPreferences);
+  @Nullable Object retrieveObject(V key, SharedPreferences sharedPreferences);
 }

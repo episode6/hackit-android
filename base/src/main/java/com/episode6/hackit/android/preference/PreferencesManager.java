@@ -33,7 +33,11 @@ public class PreferencesManager {
   }
 
   public @Nullable <V> V load(PrefKey<V> key) {
-    return (V) getTranslator(key).retrieveObject(key, mSharedPreferences);
+    V object = (V) getTranslator(key).retrieveObject(key, mSharedPreferences);
+    if (object == null) {
+      return key.createDefaultObject();
+    }
+    return object;
   }
 
   public <V> Optional<V> loadOptional(PrefKey<V> key) {

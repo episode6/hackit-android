@@ -3,10 +3,6 @@ package com.episode6.hackit.android.preference;
 import android.content.SharedPreferences;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-
-import java.util.Map;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -18,26 +14,22 @@ public class PreferencesManager {
   public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
 
   private final SharedPreferences mSharedPreferences;
-  private final Gson mGson;
+  private final GsonPrefKey.Translator mSimpleTranslator;
 
   @Inject
   public PreferencesManager(
       SharedPreferences sharedPreferences,
-      Gson gson) {
+      GsonPrefKey.Translator simpleTranslator) {
     mSharedPreferences = sharedPreferences;
-    mGson = gson;
+    mSimpleTranslator = simpleTranslator;
   }
 
   public @Nullable <V> V load(PrefKey<V> key) {
-    Class<V> objectType = key.getObjectType();
-    PrefKeyPath keyPath = key.getKeyPath();
-
-    String rawValue = mSharedPreferences.getString(keyPath.getPath(), null);
-    if (rawValue == null) {
-      return key.createDefaultObject();
+    if (!mSimpleTranslator.getPrefKeyTypeClass().isInstance(key)) {
+      throw new UnsupportedOperationException();
     }
 
-    return mGson.fromJson(rawValue, objectType);
+    return mSimpleTranslator.retrieveObject((GsonPrefKey.Key) key, mSharedPreferences);
   }
 
   public <V> Optional<V> loadOptional(PrefKey<V> key) {
@@ -53,26 +45,27 @@ public class PreferencesManager {
   }
 
   public Editor edit() {
-    return new Editor();
+    return new Editor(mSharedPreferences.edit());
   }
 
   public class Editor {
 
-    private final Map<PrefKey, Object> mPendingPuts = Maps.newHashMap();
+    private final SharedPreferences.Editor mEditor;
+
+    Editor(SharedPreferences.Editor editor) {
+      mEditor = editor;
+    }
 
     public <V> Editor put(PrefKey<V> key, V value) {
-      mPendingPuts.put(key, value);
+      if (!mSimpleTranslator.getPrefKeyTypeClass().isInstance(key)) {
+        throw new UnsupportedOperationException();
+      }
+      mSimpleTranslator.storeObject((GsonPrefKey.Key) key, value, mEditor);
       return this;
     }
 
     public void commit() {
-      SharedPreferences.Editor editor = mSharedPreferences.edit();
-      for (PrefKey key : mPendingPuts.keySet()) {
-        Object value = mPendingPuts.get(key);
-        String rawValue = mGson.toJson(value);
-        editor.putString(key.getKeyPath().getPath(), rawValue);
-      }
-      editor.commit();
+      mEditor.commit();
     }
   }
 }

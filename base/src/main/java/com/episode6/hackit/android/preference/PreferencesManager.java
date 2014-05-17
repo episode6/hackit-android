@@ -3,33 +3,37 @@ package com.episode6.hackit.android.preference;
 import android.content.SharedPreferences;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-@Singleton
+/**
+ * Singleton provided by prefs module
+ */
 public class PreferencesManager {
 
   public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
 
+  private final Map<Class<? extends  PrefKey>, PrefKeyTranslator<PrefKey<?>>> mPrefKeyTranslatorMap = Maps.newHashMap();
   private final SharedPreferences mSharedPreferences;
-  private final GsonPrefKey.Translator mSimpleTranslator;
 
-  @Inject
   public PreferencesManager(
       SharedPreferences sharedPreferences,
-      GsonPrefKey.Translator simpleTranslator) {
+      Set<PrefKeyTranslator> prefKeyTranslators) {
     mSharedPreferences = sharedPreferences;
-    mSimpleTranslator = simpleTranslator;
+
+    for (PrefKeyTranslator translator : prefKeyTranslators) {
+      mPrefKeyTranslatorMap.put(translator.getPrefKeyTypeClass(), translator);
+    }
   }
 
   public @Nullable <V> V load(PrefKey<V> key) {
-    if (!mSimpleTranslator.getPrefKeyTypeClass().isInstance(key)) {
-      throw new UnsupportedOperationException();
-    }
-
-    return mSimpleTranslator.retrieveObject((GsonPrefKey.Key) key, mSharedPreferences);
+    return (V) getTranslator(key).retrieveObject(key, mSharedPreferences);
   }
 
   public <V> Optional<V> loadOptional(PrefKey<V> key) {
@@ -57,15 +61,20 @@ public class PreferencesManager {
     }
 
     public <V> Editor put(PrefKey<V> key, V value) {
-      if (!mSimpleTranslator.getPrefKeyTypeClass().isInstance(key)) {
-        throw new UnsupportedOperationException();
-      }
-      mSimpleTranslator.storeObject((GsonPrefKey.Key) key, value, mEditor);
+      getTranslator(key).storeObject(key, value, mEditor);
       return this;
     }
 
     public void commit() {
       mEditor.commit();
     }
+  }
+
+  private PrefKeyTranslator getTranslator(PrefKey<?> key) {
+    PrefKeyTranslator translator = mPrefKeyTranslatorMap.get(key.getClass());
+    if (translator == null) {
+      throw new UnsupportedOperationException();
+    }
+    return translator;
   }
 }

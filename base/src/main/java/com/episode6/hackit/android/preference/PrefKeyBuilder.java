@@ -38,11 +38,7 @@ public class PrefKeyBuilder<V> {
   public PrefKey<V> build() {
     PrefKeyPath keyPath = mBaseKeyPath.extend(mPrefName);
 
-    if (mObjectType == Boolean.class ||
-        mObjectType == Integer.class ||
-        mObjectType == Long.class ||
-        mObjectType == Float.class ||
-        mObjectType == String.class) {
+    if (BasicPrefKey.supportsObject(mObjectType)) {
       return new BasicPrefKey.Key<V>(keyPath, mObjectType, mDefaultInstanceProvider);
     }
 

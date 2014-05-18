@@ -9,16 +9,17 @@ import javax.inject.Singleton;
 
 public class BasicPrefKey {
 
+  public static boolean supportsObject(Class<?> objectType) {
+    return objectType == Boolean.class ||
+        objectType == Integer.class ||
+        objectType == Long.class ||
+        objectType == Float.class ||
+        objectType == String.class;
+  }
+
   public static class Key<T> extends AbstractPrefKey<T> {
-    private final Class<T> mObjectClass;
-
     Key(PrefKeyPath keyPath, Class<T> objectClass, @Nullable Provider<T> defaultInstanceProvider) {
-      super(keyPath, defaultInstanceProvider);
-      mObjectClass = objectClass;
-    }
-
-    public Class<T> getObjectType() {
-      return mObjectClass;
+      super(keyPath, objectClass, defaultInstanceProvider);
     }
   }
 

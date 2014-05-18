@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PreferencesManager {
   public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
-  
+
   public <V> V load(PrefKey<V> key);
   public <V> Optional<V> load(OptionalPrefKey<V> key);
   public boolean isPrefPresent(PrefKey key);

@@ -17,9 +17,22 @@ import javax.inject.Inject;
 
 public class BaseWebViewFragment extends BaseFragment {
 
+  private static final String ARG_URL = "url";
+
   @Inject DeviceInfo mDeviceInfo;
 
   private WebView mWebView;
+
+  public void setUrl(String url) {
+    if (getArguments() == null) {
+      setArguments(new Bundle());
+    }
+    getArguments().putString(ARG_URL, url);
+  }
+
+  public String getUrl() {
+    return getArguments().getString(ARG_URL);
+  }
 
   @Nullable
   @Override

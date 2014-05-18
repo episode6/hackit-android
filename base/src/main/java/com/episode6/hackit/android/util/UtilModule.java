@@ -1,5 +1,7 @@
 package com.episode6.hackit.android.util;
 
+import android.os.Build;
+
 import com.episode6.hackit.android.app.scope.ApplicationScope;
 
 import javax.inject.Singleton;
@@ -15,5 +17,10 @@ public class UtilModule {
   @Provides @Singleton
   Clock provideClock() {
     return new Clock();
+  }
+
+  @Provides @Singleton
+  DeviceInfo provideDeviceInfo() {
+    return new DeviceInfo(Build.VERSION.SDK_INT);
   }
 }

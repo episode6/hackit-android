@@ -3,11 +3,13 @@ package com.episode6.hackit.android.preference;
 import android.content.SharedPreferences;
 import android.util.Pair;
 
+import com.episode6.hackit.chop.Chop;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -27,30 +29,41 @@ public class PreferencesManagerImpl implements PreferencesManager {
     mPrefCache = prefCache;
   }
 
-  /**
-   * Technically this method can return a null object. However we protect against this by not
-   * allowing users to build a PrefKey with a null default instance unless they are building an
-   * OptionalPrefKey (which would use the other load method).
-   */
   @Override
   public <V> V load(PrefKey<V> key) {
-    synchronized (mPrefCache) {
-      if (key.shouldCache() && isCached(key)) {
-        return (V) mPrefCache.get(key);
-      }
-
-      if (!isPrefPresent(key)) {
-        return key.createDefaultObject();
-      }
-
-      V object = (V) getTranslator(key).retrieveObject(key, mSharedPreferences, key.getKeyPath().getPath());
-      return object;
+    V obj = loadInternal(key);
+    if (obj == null) {
+      throw new NullPointerException("Unexpected null preference loaded: " + key.toString());
     }
+    return obj;
   }
 
   @Override
   public <V> Optional<V> load(OptionalPrefKey<V> key) {
-    return Optional.fromNullable(load(key.getRealPrefKey()));
+    return Optional.fromNullable(loadInternal(key.getRealPrefKey()));
+  }
+
+  public @Nullable <V> V loadInternal(PrefKey<V> key) {
+    synchronized (mPrefCache) {
+      if (key.shouldCache() && isCached(key)) {
+        Chop.d("Cache hit for: %s", key);
+        return (V) mPrefCache.get(key);
+      }
+
+      if (!isPrefPresent(key)) {
+        V obj = key.createDefaultObject();
+        if (key.shouldCache()) {
+          mPrefCache.put(key, obj);
+        }
+        return obj;
+      }
+
+      V obj = (V) getTranslator(key).retrieveObject(key, mSharedPreferences, key.getKeyPath().getPath());
+      if (key.shouldCache()) {
+        mPrefCache.put(key, obj);
+      }
+      return obj;
+    }
   }
 
   @Override

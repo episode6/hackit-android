@@ -1,5 +1,7 @@
 package com.episode6.hackit.android.preference;
 
+import com.episode6.hackit.android.util.StringFormat;
+
 import javax.annotation.Nullable;
 import javax.inject.Provider;
 
@@ -35,6 +37,11 @@ public class AbstractPrefKey<T> implements PrefKey<T> {
   @Override
   public T createDefaultObject() {
     return mDefaultInstanceProvider == null ? null : mDefaultInstanceProvider.get();
+  }
+
+  @Override
+  public String toString() {
+    return StringFormat.of("PrefKey of type: %s, path: %s", mObjectClass.getSimpleName(), mKeyPath.getPath());
   }
 
   @Override

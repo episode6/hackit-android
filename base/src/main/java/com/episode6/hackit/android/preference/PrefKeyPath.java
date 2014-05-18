@@ -33,14 +33,22 @@ public class PrefKeyPath {
   }
 
   public PrefKeyBuilder<Boolean> boolKey(String name) {
-    return new PrefKeyBuilder<Boolean>(this, name, Boolean.class);
+    return key(name, Boolean.class);
   }
 
   public PrefKeyBuilder<Integer> intKey(String name) {
-    return new PrefKeyBuilder<Integer>(this, name, Integer.class);
+    return key(name, Integer.class);
+  }
+
+  public PrefKeyBuilder<Long> longKey(String name) {
+    return key(name, Long.class);
+  }
+
+  public PrefKeyBuilder<Float> floatKey(String name) {
+    return key(name, Float.class);
   }
 
   public PrefKeyBuilder<String> stringKey(String name) {
-    return new PrefKeyBuilder<String>(this, name, String.class);
+    return key(name, String.class);
   }
 }

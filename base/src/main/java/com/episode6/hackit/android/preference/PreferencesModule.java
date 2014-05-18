@@ -30,10 +30,12 @@ public class PreferencesModule {
   }
 
   @Provides(type = Provides.Type.SET_VALUES)
-  Set<PrefKeyTranslator> provideTranslators(GsonPrefKey.Translator gsonTranslator) {
-    return ImmutableSet.<PrefKeyTranslator>builder()
-        .add(gsonTranslator)
-        .addAll(BasicPrefKeys.getTranslators())
-        .build();
+  Set<PrefKeyTranslator> provideTranslators(
+      BasicPrefKey.Translator basicTranslator,
+      GsonPrefKey.Translator gsonTranslator) {
+
+    return ImmutableSet.<PrefKeyTranslator>of(
+        basicTranslator,
+        gsonTranslator);
   }
 }

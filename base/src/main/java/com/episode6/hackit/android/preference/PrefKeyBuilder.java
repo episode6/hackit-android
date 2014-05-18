@@ -38,16 +38,12 @@ public class PrefKeyBuilder<V> {
   public PrefKey<V> build() {
     PrefKeyPath keyPath = mBaseKeyPath.extend(mPrefName);
 
-    if (mObjectType == Boolean.class) {
-      return (PrefKey<V>) new BasicPrefKeys.BoolPrefKey(keyPath, (Provider<Boolean>) mDefaultInstanceProvider);
-    } else if (mObjectType == Integer.class) {
-      return (PrefKey<V>) new BasicPrefKeys.IntPrefKey(keyPath, (Provider<Integer>) mDefaultInstanceProvider);
-    } else if (mObjectType == Long.class) {
-      return (PrefKey<V>) new BasicPrefKeys.LongPrefKey(keyPath, (Provider<Long>) mDefaultInstanceProvider);
-    } else if (mObjectType == Float.class) {
-      return (PrefKey<V>) new BasicPrefKeys.FloatPrefKey(keyPath, (Provider<Float>) mDefaultInstanceProvider);
-    } else if (mObjectType == String.class) {
-      return (PrefKey<V>) new BasicPrefKeys.StringPrefKey(keyPath, (Provider<String>) mDefaultInstanceProvider);
+    if (mObjectType == Boolean.class ||
+        mObjectType == Integer.class ||
+        mObjectType == Long.class ||
+        mObjectType == Float.class ||
+        mObjectType == String.class) {
+      return new BasicPrefKey.Key<V>(keyPath, mObjectType, mDefaultInstanceProvider);
     }
 
     return new GsonPrefKey.Key<V>(keyPath, mObjectType, mDefaultInstanceProvider);

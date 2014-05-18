@@ -3,14 +3,8 @@ package com.episode6.hackit.android.preference;
 import android.content.SharedPreferences;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
-
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.Nullable;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 /**
  * Singleton provided by prefs module
@@ -18,18 +12,14 @@ import javax.inject.Singleton;
 public class PreferencesManager {
 
   public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
-
-  private final Map<Class<? extends  PrefKey>, PrefKeyTranslator<PrefKey<?>>> mPrefKeyTranslatorMap = Maps.newHashMap();
   private final SharedPreferences mSharedPreferences;
+  private final PrefKeyTranslatorSet mPrefKeyTranslatorSet;
 
   public PreferencesManager(
       SharedPreferences sharedPreferences,
-      Set<PrefKeyTranslator> prefKeyTranslators) {
+      PrefKeyTranslatorSet prefKeyTranslatorSet) {
     mSharedPreferences = sharedPreferences;
-
-    for (PrefKeyTranslator translator : prefKeyTranslators) {
-      mPrefKeyTranslatorMap.put(translator.getPrefKeyTypeClass(), translator);
-    }
+    mPrefKeyTranslatorSet = prefKeyTranslatorSet;
   }
 
   public @Nullable <V> V load(PrefKey<V> key) {
@@ -77,10 +67,6 @@ public class PreferencesManager {
   }
 
   private PrefKeyTranslator getTranslator(PrefKey<?> key) {
-    PrefKeyTranslator translator = mPrefKeyTranslatorMap.get(key.getClass());
-    if (translator == null) {
-      throw new UnsupportedOperationException();
-    }
-    return translator;
+    return mPrefKeyTranslatorSet.getTranslatorForKey(key);
   }
 }

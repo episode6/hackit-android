@@ -25,8 +25,8 @@ public class PreferencesModule {
   @Provides @Singleton
   PreferencesManager providePrefManager(
       SharedPreferences sharedPreferences,
-      Set<PrefKeyTranslator> prefKeyTranslators) {
-    return new PreferencesManager(sharedPreferences, prefKeyTranslators);
+      PrefKeyTranslatorSet prefKeyTranslatorSet) {
+    return new PreferencesManager(sharedPreferences, prefKeyTranslatorSet);
   }
 
   @Provides(type = Provides.Type.SET_VALUES)
@@ -37,5 +37,10 @@ public class PreferencesModule {
     return ImmutableSet.<PrefKeyTranslator>of(
         basicTranslator,
         gsonTranslator);
+  }
+
+  @Provides @Singleton
+  PrefKeyTranslatorSet providePrefKeyTranslatorSet(Set<PrefKeyTranslator> prefKeyTranslators) {
+    return new PrefKeyTranslatorSet(prefKeyTranslators);
   }
 }

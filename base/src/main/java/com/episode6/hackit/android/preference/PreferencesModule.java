@@ -23,11 +23,8 @@ import dagger.Provides;
 public class PreferencesModule {
 
   @Provides @Singleton
-  PreferencesManager providePrefManager(
-      SharedPreferences sharedPreferences,
-      PrefKeyTranslatorSet prefKeyTranslatorSet,
-      PrefCache prefCache) {
-    return new PreferencesManager(sharedPreferences, prefKeyTranslatorSet, prefCache);
+  PreferencesManager providePrefManager(PreferencesManagerImpl preferencesManager) {
+    return preferencesManager;
   }
 
   @Provides(type = Provides.Type.SET_VALUES)

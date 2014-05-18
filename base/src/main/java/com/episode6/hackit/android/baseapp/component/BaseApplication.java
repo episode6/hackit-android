@@ -9,7 +9,7 @@ import com.episode6.hackit.android.app.scope.ContextScope;
 import com.episode6.hackit.android.appmonitor.ActivityCollector;
 import com.episode6.hackit.android.baseapp.module.BaseApplicationModule;
 import com.episode6.hackit.android.inject.Injectors;
-import com.episode6.hackit.android.preference.PreferencesManager;
+import com.episode6.hackit.android.preference.PrefManager;
 import com.episode6.hackit.inject.HasInjectorScope;
 import com.episode6.hackit.inject.Injector;
 import com.google.common.collect.ImmutableList;
@@ -22,7 +22,8 @@ public class BaseApplication extends Application implements HasInjectorScope {
 
   /* Eager Singletons */
   @Inject ActivityCollector mActivityCollector;
-  @Inject PreferencesManager mPreferencesManager;
+  @Inject
+  PrefManager mPrefManager;
 
   private Injector mInjector;
 

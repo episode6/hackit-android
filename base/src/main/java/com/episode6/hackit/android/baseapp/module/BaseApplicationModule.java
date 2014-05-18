@@ -9,7 +9,7 @@ import com.episode6.hackit.android.extmodule.GsonModule;
 import com.episode6.hackit.android.extmodule.OttoBusModule;
 import com.episode6.hackit.android.app.scope.ApplicationScope;
 import com.episode6.hackit.android.app.scope.ContextScope;
-import com.episode6.hackit.android.preference.PreferencesModule;
+import com.episode6.hackit.android.preference.PrefModule;
 import com.episode6.hackit.android.util.UtilModule;
 
 import javax.inject.Singleton;
@@ -34,7 +34,7 @@ import dagger.Provides;
         OttoBusModule.class,
         UtilModule.class,
         AppMonitorModule.class,
-        PreferencesModule.class})
+        PrefModule.class})
 public class BaseApplicationModule {
 
   @Provides

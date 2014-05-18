@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 
-public interface PreferencesManager {
+public interface PrefManager {
   public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
 
   public <V> V load(PrefKey<V> key);

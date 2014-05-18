@@ -14,13 +14,13 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class PreferencesManagerImpl implements PreferencesManager {
+public class PrefManagerImpl implements PrefManager {
   private final SharedPreferences mSharedPreferences;
   private final PrefKeyTranslatorSet mPrefKeyTranslatorSet;
   private final PrefCache mPrefCache;
 
   @Inject
-  public PreferencesManagerImpl(
+  public PrefManagerImpl(
       SharedPreferences sharedPreferences,
       PrefKeyTranslatorSet prefKeyTranslatorSet,
       PrefCache prefCache) {
@@ -86,7 +86,7 @@ public class PreferencesManagerImpl implements PreferencesManager {
     return new Editor(mSharedPreferences.edit());
   }
 
-  public class Editor implements PreferencesManager.Editor {
+  public class Editor implements PrefManager.Editor {
 
     private final SharedPreferences.Editor mEditor;
     private final List<Pair<PrefKey<?>, Object>> mCachedPuts = Lists.newLinkedList();

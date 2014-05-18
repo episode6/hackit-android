@@ -1,7 +1,5 @@
 package com.episode6.hackit.android.preference;
 
-import android.content.SharedPreferences;
-
 import com.episode6.hackit.android.app.scope.ApplicationScope;
 import com.episode6.hackit.android.app.scope.ContextScope;
 import com.episode6.hackit.android.extmodule.GsonModule;
@@ -20,10 +18,10 @@ import dagger.Provides;
         ApplicationScope.class,
         ContextScope.class,
         GsonModule.class})
-public class PreferencesModule {
+public class PrefModule {
 
   @Provides @Singleton
-  PreferencesManager providePrefManager(PreferencesManagerImpl preferencesManager) {
+  PrefManager providePrefManager(PrefManagerImpl preferencesManager) {
     return preferencesManager;
   }
 

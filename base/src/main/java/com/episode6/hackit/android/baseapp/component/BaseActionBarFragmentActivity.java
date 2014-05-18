@@ -15,11 +15,13 @@ import com.episode6.hackit.inject.Injector;
 import com.episode6.hackit.android.inject.Injectors;
 import com.episode6.hackit.android.app.scope.ActivityScope;
 import com.episode6.hackit.android.app.scope.ContextScope;
+import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.squareup.otto.Bus;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -156,5 +158,23 @@ public abstract class BaseActionBarFragmentActivity extends ActionBarActivity
     super.setContentView(view, params);
 
     ButterKnife.inject(this);
+  }
+
+  public <T extends View> T getView(int viewId) {
+    T view = getViewInternal(viewId);
+    if (view == null) {
+      throw new NullPointerException("Could not find view!");
+    }
+    return view;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T extends View> Optional<T> getOptionalView(int viewId) {
+    return Optional.fromNullable((T)getViewInternal(viewId));
+  }
+
+  @SuppressWarnings("unchecked")
+  private @Nullable <T extends View> T getViewInternal(int viewId) {
+    return (T) findViewById(viewId);
   }
 }

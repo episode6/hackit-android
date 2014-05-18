@@ -13,6 +13,7 @@ import com.episode6.hackit.android.inject.InjectorContextWrapper;
 import com.episode6.hackit.android.inject.Injectors;
 import com.episode6.hackit.inject.HasInjector;
 import com.episode6.hackit.inject.Injector;
+import com.google.common.base.Optional;
 import com.squareup.otto.Bus;
 
 import javax.annotation.Nullable;
@@ -95,5 +96,23 @@ public abstract class BaseFragment extends Fragment implements HasInjector, HasC
   @Override
   public boolean handleBackPress() {
     return false;
+  }
+
+  public <T extends View> T getView(int viewId) {
+    T view = getViewInternal(viewId);
+    if (view == null) {
+      throw new NullPointerException("Could not find view!");
+    }
+    return view;
+  }
+
+  @SuppressWarnings("unchecked")
+  public <T extends View> Optional<T> getOptionalView(int viewId) {
+    return Optional.fromNullable((T)getViewInternal(viewId));
+  }
+
+  @SuppressWarnings("unchecked")
+  private @Nullable <T extends View> T getViewInternal(int viewId) {
+    return (T) getView().findViewById(viewId);
   }
 }

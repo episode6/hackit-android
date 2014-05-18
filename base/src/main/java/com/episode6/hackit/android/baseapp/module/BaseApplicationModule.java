@@ -3,6 +3,7 @@ package com.episode6.hackit.android.baseapp.module;
 import com.episode6.hackit.android.annotation.TestAnnotation;
 import com.episode6.hackit.android.appmonitor.AppMonitorModule;
 import com.episode6.hackit.android.baseapp.component.BaseApplication;
+import com.episode6.hackit.android.baseapp.component.BaseBroadcastReceiver;
 import com.episode6.hackit.android.extmodule.AndroidModule;
 import com.episode6.hackit.android.extmodule.GsonModule;
 import com.episode6.hackit.android.extmodule.OttoBusModule;
@@ -21,7 +22,9 @@ import dagger.Provides;
  */
 @Module(
     library = true,
-    injects = {BaseApplication.class},
+    injects = {
+        BaseApplication.class,
+        BaseBroadcastReceiver.class},
     includes = {
         ContextScope.class,
         ApplicationScope.class,

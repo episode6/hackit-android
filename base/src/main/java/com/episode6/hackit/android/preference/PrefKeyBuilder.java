@@ -19,7 +19,7 @@ public class PrefKeyBuilder<V> {
     mObjectType = objectType;
   }
 
-  public PrefKey<V> defaultTo(final V defaultInstance) {
+  public PrefKeyBuilder<V> defaultTo(final V defaultInstance) {
     mDefaultInstanceProvider = defaultInstance == null ? null :
         new Provider<V>() {
           @Override
@@ -27,12 +27,12 @@ public class PrefKeyBuilder<V> {
             return defaultInstance;
           }
         };
-    return build();
+    return this;
   }
 
-  public PrefKey<V> defaultTo(Provider<V> defaultInstanceProvider) {
+  public PrefKeyBuilder<V> defaultTo(Provider<V> defaultInstanceProvider) {
     mDefaultInstanceProvider = defaultInstanceProvider;
-    return build();
+    return this;
   }
 
   public PrefKey<V> build() {
@@ -43,5 +43,9 @@ public class PrefKeyBuilder<V> {
     }
 
     return new GsonPrefKey.Key<V>(keyPath, mObjectType, mDefaultInstanceProvider);
+  }
+
+  public OptionalPrefKey<V> buildOptional() {
+    return new OptionalPrefKey<V>(build());
   }
 }

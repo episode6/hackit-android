@@ -30,12 +30,16 @@ public class PreferencesManager {
     return object;
   }
 
-  public <V> Optional<V> loadOptional(PrefKey<V> key) {
-    return Optional.fromNullable(load(key));
+  public <V> Optional<V> load(OptionalPrefKey<V> key) {
+    return Optional.fromNullable(load(key.getRealPrefKey()));
   }
 
   public boolean isPrefPresent(PrefKey key) {
     return mSharedPreferences.contains(key.getKeyPath().getPath());
+  }
+
+  public boolean isPrefPresent(OptionalPrefKey key) {
+    return isPrefPresent(key.getRealPrefKey());
   }
 
   public Editor edit() {
@@ -59,6 +63,10 @@ public class PreferencesManager {
 
       getTranslator(key).storeObject(key, value, mEditor, sharedPrefKey);
       return this;
+    }
+
+    public <V> Editor put(OptionalPrefKey<V> key, V value) {
+      return put(key.getRealPrefKey(), value);
     }
 
     public void commit() {

@@ -28,10 +28,6 @@ public class PrefKeyPath {
     return new PrefKeyBuilder<V>(this, name, type);
   }
 
-  public <V> PrefKey<V> nullKey(String name, Class<V> type) {
-    return new PrefKeyBuilder<V>(this, name, type).build();
-  }
-
   public PrefKeyBuilder<Boolean> boolKey(String name) {
     return key(name, Boolean.class);
   }

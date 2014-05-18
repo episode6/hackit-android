@@ -9,6 +9,7 @@ public class PrefKeyBuilder<V> {
   private final Class<V> mObjectType;
 
   private Provider<V> mDefaultInstanceProvider = null;
+  private boolean mShouldCache = false;
 
   PrefKeyBuilder(
       PrefKeyPath basePath,
@@ -35,18 +36,9 @@ public class PrefKeyBuilder<V> {
     return this;
   }
 
-  public PrefKey<V> buildInternal(boolean nullSafe) {
-    if (mDefaultInstanceProvider == null && !nullSafe) {
-      throw new NullPointerException("Cannot build a PrefKey with a null default instance unless using buildOptional()");
-    }
-
-    PrefKeyPath keyPath = mBaseKeyPath.extend(mPrefName);
-
-    if (BasicPrefKey.supportsObject(mObjectType)) {
-      return new BasicPrefKey.Key<V>(keyPath, mObjectType, mDefaultInstanceProvider);
-    }
-
-    return new GsonPrefKey.Key<V>(keyPath, mObjectType, mDefaultInstanceProvider);
+  public PrefKeyBuilder<V> cache(boolean shouldCache) {
+    mShouldCache = shouldCache;
+    return this;
   }
 
   public PrefKey<V> build() {
@@ -55,5 +47,27 @@ public class PrefKeyBuilder<V> {
 
   public OptionalPrefKey<V> buildOptional() {
     return new OptionalPrefKey<V>(buildInternal(true));
+  }
+
+  private PrefKey<V> buildInternal(boolean nullSafe) {
+    if (mDefaultInstanceProvider == null && !nullSafe) {
+      throw new NullPointerException("Cannot build a PrefKey with a null default instance unless using buildOptional()");
+    }
+
+    PrefKeyPath keyPath = mBaseKeyPath.extend(mPrefName);
+
+    if (BasicPrefKey.supportsObject(mObjectType)) {
+      return new BasicPrefKey.Key<V>(
+          keyPath,
+          mObjectType,
+          mDefaultInstanceProvider,
+          mShouldCache);
+    }
+
+    return new GsonPrefKey.Key<V>(
+        keyPath,
+        mObjectType,
+        mDefaultInstanceProvider,
+        mShouldCache);
   }
 }

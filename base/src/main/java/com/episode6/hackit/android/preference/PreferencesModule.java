@@ -25,8 +25,9 @@ public class PreferencesModule {
   @Provides @Singleton
   PreferencesManager providePrefManager(
       SharedPreferences sharedPreferences,
-      PrefKeyTranslatorSet prefKeyTranslatorSet) {
-    return new PreferencesManager(sharedPreferences, prefKeyTranslatorSet);
+      PrefKeyTranslatorSet prefKeyTranslatorSet,
+      PrefCache prefCache) {
+    return new PreferencesManager(sharedPreferences, prefKeyTranslatorSet, prefCache);
   }
 
   @Provides(type = Provides.Type.SET_VALUES)

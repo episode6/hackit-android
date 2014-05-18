@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 public interface PrefKeyTranslator<V extends PrefKey> {
   Class<V> getPrefKeyTypeClass();
-  void storeObject(V key, Object value, SharedPreferences.Editor editor);
+  void storeObject(V key, Object value, SharedPreferences.Editor editor, String sharedPrefKey);
 
   /**
    * As far as I can tell, java does not have a way to define a generic type AS a generic type.
@@ -15,5 +15,5 @@ public interface PrefKeyTranslator<V extends PrefKey> {
    * However, since the only call-site of this method should be the PreferencesManager itself
    * we'll consider such casting as safe.
    */
-  @Nullable Object retrieveObject(V key, SharedPreferences sharedPreferences);
+  @Nullable Object retrieveObject(V key, SharedPreferences sharedPreferences, String sharedPrefKey);
 }

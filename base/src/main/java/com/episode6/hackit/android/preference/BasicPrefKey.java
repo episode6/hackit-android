@@ -35,43 +35,35 @@ public class BasicPrefKey {
     }
 
     @Override
-    public void storeObject(Key key, Object value, SharedPreferences.Editor editor) {
-      String prefKey = key.getKeyPath().getPath();
-
-      if (value == null) {
-        editor.remove(prefKey);
-      } else if (key.getObjectType() == Boolean.class) {
-        editor.putBoolean(prefKey, (Boolean) value);
-      } else if (key.getObjectType() == Integer.class) {
-        editor.putInt(prefKey, (Integer) value);
-      } else if (key.getObjectType() == Long.class) {
-        editor.putLong(prefKey, (Long) value);
-      } else if (key.getObjectType() == Float.class) {
-        editor.putFloat(prefKey, (Float) value);
-      } else if (key.getObjectType() == String.class) {
-        editor.putString(prefKey, (String) value);
+    public void storeObject(Key key, Object value, SharedPreferences.Editor editor, String sharedPrefKey) {
+      Class<?> objectType = key.getObjectType();
+      if (objectType == Boolean.class) {
+        editor.putBoolean(sharedPrefKey, (Boolean) value);
+      } else if (objectType == Integer.class) {
+        editor.putInt(sharedPrefKey, (Integer) value);
+      } else if (objectType == Long.class) {
+        editor.putLong(sharedPrefKey, (Long) value);
+      } else if (objectType == Float.class) {
+        editor.putFloat(sharedPrefKey, (Float) value);
+      } else if (objectType == String.class) {
+        editor.putString(sharedPrefKey, (String) value);
       }
     }
 
     @Nullable
     @Override
-    public Object retrieveObject(Key key, SharedPreferences sharedPreferences) {
-      String prefKey = key.getKeyPath().getPath();
-
-      if (!sharedPreferences.contains(prefKey)) {
-        return  null;
-      }
-
-      if (key.getObjectType() == Boolean.class) {
-        return sharedPreferences.getBoolean(prefKey, false);
-      } else if (key.getObjectType() == Integer.class) {
-        return sharedPreferences.getInt(prefKey, -1);
-      } else if (key.getObjectType() == Long.class) {
-        return sharedPreferences.getLong(prefKey, -1);
-      } else if (key.getObjectType() == Float.class) {
-        return sharedPreferences.getFloat(prefKey, -1f);
-      } else if (key.getObjectType() == String.class) {
-        return sharedPreferences.getString(prefKey, null);
+    public Object retrieveObject(Key key, SharedPreferences sharedPreferences, String sharedPrefKey) {
+      Class<?> objectType = key.getObjectType();
+      if (objectType == Boolean.class) {
+        return sharedPreferences.getBoolean(sharedPrefKey, false);
+      } else if (objectType == Integer.class) {
+        return sharedPreferences.getInt(sharedPrefKey, -1);
+      } else if (objectType == Long.class) {
+        return sharedPreferences.getLong(sharedPrefKey, -1);
+      } else if (objectType == Float.class) {
+        return sharedPreferences.getFloat(sharedPrefKey, -1f);
+      } else if (objectType == String.class) {
+        return sharedPreferences.getString(sharedPrefKey, null);
       }
 
       return null;

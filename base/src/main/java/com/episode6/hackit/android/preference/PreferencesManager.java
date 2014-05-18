@@ -33,19 +33,15 @@ public class PreferencesManager {
   }
 
   public @Nullable <V> V load(PrefKey<V> key) {
-    V object = (V) getTranslator(key).retrieveObject(key, mSharedPreferences);
-    if (object == null) {
+    if (!isPrefPresent(key)) {
       return key.createDefaultObject();
     }
+    V object = (V) getTranslator(key).retrieveObject(key, mSharedPreferences, key.getKeyPath().getPath());
     return object;
   }
 
   public <V> Optional<V> loadOptional(PrefKey<V> key) {
     return Optional.fromNullable(load(key));
-  }
-
-  public boolean isPrefNull(PrefKey key) {
-    return mSharedPreferences.getString(key.getKeyPath().getPath(), null) == null;
   }
 
   public boolean isPrefPresent(PrefKey key) {
@@ -65,7 +61,13 @@ public class PreferencesManager {
     }
 
     public <V> Editor put(PrefKey<V> key, V value) {
-      getTranslator(key).storeObject(key, value, mEditor);
+      String sharedPrefKey = key.getKeyPath().getPath();
+      if (value == null) {
+        mEditor.remove(key.getKeyPath().getPath());
+        return this;
+      }
+
+      getTranslator(key).storeObject(key, value, mEditor, sharedPrefKey);
       return this;
     }
 

@@ -32,16 +32,15 @@ public class GsonPrefKey {
     }
 
     @Override
-    public void storeObject(Key key, Object value, SharedPreferences.Editor editor) {
-      String path = key.getKeyPath().getPath();
+    public void storeObject(Key key, Object value, SharedPreferences.Editor editor, String sharedPrefKey) {
       String jsonValue = mGson.toJson(value);
-      editor.putString(path, jsonValue);
+      editor.putString(sharedPrefKey, jsonValue);
     }
 
     @Nullable
     @Override
-    public Object retrieveObject(Key key, SharedPreferences sharedPreferences) {
-      String rawValue = sharedPreferences.getString(key.getKeyPath().getPath(), null);
+    public Object retrieveObject(Key key, SharedPreferences sharedPreferences, String sharedPrefKey) {
+      String rawValue = sharedPreferences.getString(sharedPrefKey, null);
       return mGson.fromJson(rawValue, key.getObjectType());
     }
   }

@@ -35,7 +35,11 @@ public class PrefKeyBuilder<V> {
     return this;
   }
 
-  public PrefKey<V> build() {
+  public PrefKey<V> buildInternal(boolean nullSafe) {
+    if (mDefaultInstanceProvider == null && !nullSafe) {
+      throw new NullPointerException("Cannot build a PrefKey with a null default instance unless using buildOptional()");
+    }
+
     PrefKeyPath keyPath = mBaseKeyPath.extend(mPrefName);
 
     if (BasicPrefKey.supportsObject(mObjectType)) {
@@ -45,7 +49,11 @@ public class PrefKeyBuilder<V> {
     return new GsonPrefKey.Key<V>(keyPath, mObjectType, mDefaultInstanceProvider);
   }
 
+  public PrefKey<V> build() {
+    return buildInternal(false);
+  }
+
   public OptionalPrefKey<V> buildOptional() {
-    return new OptionalPrefKey<V>(build());
+    return new OptionalPrefKey<V>(buildInternal(true));
   }
 }

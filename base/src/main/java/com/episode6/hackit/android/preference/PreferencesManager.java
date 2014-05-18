@@ -4,8 +4,6 @@ import android.content.SharedPreferences;
 
 import com.google.common.base.Optional;
 
-import javax.annotation.Nullable;
-
 /**
  * Singleton provided by prefs module
  */
@@ -22,7 +20,12 @@ public class PreferencesManager {
     mPrefKeyTranslatorSet = prefKeyTranslatorSet;
   }
 
-  public @Nullable <V> V load(PrefKey<V> key) {
+  /**
+   * Technically this method can return a null object. However we protect against this by not
+   * allowing users to build a PrefKey with a null default instance unless they are building an
+   * OptionalPrefKey (which would use the other load method).
+   */
+  public <V> V load(PrefKey<V> key) {
     if (!isPrefPresent(key)) {
       return key.createDefaultObject();
     }

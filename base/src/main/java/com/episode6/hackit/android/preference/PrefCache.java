@@ -26,7 +26,11 @@ public class PrefCache {
   }
 
   public void put(PrefKey<?> key, Object value) {
-    mCache.put(key, value);
+    if (value == null) {
+      mCache.remove(key);
+    } else {
+      mCache.put(key, value);
+    }
   }
 
 }

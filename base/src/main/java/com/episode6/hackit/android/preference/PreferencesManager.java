@@ -53,6 +53,9 @@ public class PreferencesManager {
 
   public boolean isPrefPresent(PrefKey key) {
     synchronized (mPrefCache) {
+      if (key.shouldCache() && mPrefCache.contains(key)) {
+        return true;
+      }
       return mSharedPreferences.contains(key.getKeyPath().getPath());
     }
   }

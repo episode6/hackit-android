@@ -3,6 +3,7 @@ package com.episode6.hackit.android.baseapp.component;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,6 +56,18 @@ public abstract class BaseActionBarFragmentActivity extends ActionBarActivity
         new ContextScope(this),
         new ActivityScope(this),
         new BaseActivityModule());
+  }
+
+  @Override
+  public void onBackPressed() {
+    for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+      if (fragment.isResumed() &&
+          fragment instanceof HandlesBackPress &&
+          ((HandlesBackPress)fragment).handleBackPress()) {
+        return;
+      }
+    }
+    super.onBackPressed();
   }
 
   @Override

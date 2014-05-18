@@ -65,4 +65,13 @@ public class BaseWebViewFragment extends BaseFragment {
   public void loadUrl(String url) {
     mWebView.loadUrl(url);
   }
+
+  @Override
+  public boolean handleBackPress() {
+    if (mWebView.canGoBack()) {
+      mWebView.goBack();
+      return true;
+    }
+    return false;
+  }
 }

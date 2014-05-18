@@ -25,7 +25,7 @@ import butterknife.ButterKnife;
  *
  * This class replaces onCreateView with onCreateContentView to support ButterKnife View Injection
  */
-public abstract class BaseFragment extends Fragment implements HasInjector, HasContext {
+public abstract class BaseFragment extends Fragment implements HasInjector, HasContext, HandlesBackPress {
 
   private Injector mInjector;
   private Context mContext;
@@ -90,5 +90,10 @@ public abstract class BaseFragment extends Fragment implements HasInjector, HasC
 
   public LayoutInflater getLayoutInflater() {
     return mLayoutInflater;
+  }
+
+  @Override
+  public boolean handleBackPress() {
+    return false;
   }
 }

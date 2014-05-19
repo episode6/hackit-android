@@ -10,9 +10,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 
-import com.episode6.hackit.android.R;
 import com.episode6.hackit.android.util.DeviceInfo;
 
 import javax.annotation.Nullable;
@@ -25,7 +23,7 @@ public class BaseWebViewFragment extends BaseFragment {
   @Inject DeviceInfo mDeviceInfo;
 
   private WebView mWebView;
-  private ProgressBar mProgressBar;
+//  private ProgressBar mProgressBar;
 
   public void setUrl(String url) {
     if (getArguments() == null) {
@@ -41,14 +39,16 @@ public class BaseWebViewFragment extends BaseFragment {
   @Nullable
   @Override
   public View onCreateContentView(Context context, LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.hackit_web_fragment, container, false);
+    mWebView = new WebView(context);
+    return mWebView;
+//    return inflater.inflate(R.layout.hackit_web_fragment, container, false);
   }
 
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
-    mWebView = getView(R.id.hackit_webview);
-    mProgressBar = getView(R.id.hackit_progress);
+//    mWebView = getView(R.id.hackit_webview);
+//    mProgressBar = getView(R.id.hackit_progress);
 
     setUpWebView();
   }
@@ -59,23 +59,23 @@ public class BaseWebViewFragment extends BaseFragment {
     mWebView.setWebChromeClient(new WebChromeClient() {
       @Override
       public void onProgressChanged(WebView view, int newProgress) {
-        if (mProgressBar.isIndeterminate()) {
-          mProgressBar.setIndeterminate(false);
-        }
-        mProgressBar.setProgress(newProgress);
+//        if (mProgressBar.isIndeterminate()) {
+//          mProgressBar.setIndeterminate(false);
+//        }
+//        mProgressBar.setProgress(newProgress);
       }
     });
     mWebView.setWebViewClient(new WebViewClient() {
       @Override
       public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        mProgressBar.setVisibility(View.VISIBLE);
-        mProgressBar.setIndeterminate(true);
-        mProgressBar.setProgress(0);
+//        mProgressBar.setVisibility(View.VISIBLE);
+//        mProgressBar.setIndeterminate(true);
+//        mProgressBar.setProgress(0);
       }
 
       @Override
       public void onPageFinished(WebView view, String url) {
-        mProgressBar.setVisibility(View.GONE);
+//        mProgressBar.setVisibility(View.GONE);
       }
     });
 

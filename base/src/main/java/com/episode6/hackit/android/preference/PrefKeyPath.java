@@ -1,12 +1,18 @@
 package com.episode6.hackit.android.preference;
 
 import com.episode6.hackit.android.util.StringFormat;
+import com.episode6.hackit.chop.Chop;
+import com.google.common.collect.Sets;
+
+import java.util.Set;
 
 public class PrefKeyPath {
 
   private static final String EXTENSION_FORMAT = "%s/%s";
 
   private final String mPath;
+  private final Set<PrefKeyPath> mChildPaths = Sets.newHashSet();
+  private final Set<PrefKey<?>> mChildKeys = Sets.newHashSet();
 
   PrefKeyPath(String path) {
     mPath = path;
@@ -21,7 +27,37 @@ public class PrefKeyPath {
   }
 
   public PrefKeyPath extend(String newPathSegment) {
-    return new PrefKeyPath(mPath, newPathSegment);
+    PrefKeyPath prefKeyPath = extendWithoutTracking(newPathSegment);
+    mChildPaths.add(prefKeyPath);
+    return prefKeyPath;
+  }
+
+  /**
+   * Only call this in debug builds
+   */
+  public void validate() {
+    for (String prefPath : validateInternal()) {
+      Chop.d(prefPath);
+    }
+  }
+
+  private Set<String> validateInternal() {
+    Chop.d("Validating Preference path %s", mPath);
+    Set<String> uniquePaths = Sets.newHashSet();
+    for (PrefKey<?> key : mChildKeys) {
+      if (!uniquePaths.add(key.getKeyPath().getPath())) {
+        throw new IllegalArgumentException("Two keys with the same path: " + key.getKeyPath().getPath());
+      }
+    }
+
+    for (PrefKeyPath path : mChildPaths) {
+      for (String pathString : path.validateInternal()) {
+        if (!uniquePaths.add(pathString)) {
+          throw new IllegalArgumentException("Two keys with the same path: " + pathString);
+        }
+      }
+    }
+    return uniquePaths;
   }
 
   public <V> PrefKeyBuilder<V> key(String name, Class<V> type) {
@@ -46,5 +82,14 @@ public class PrefKeyPath {
 
   public PrefKeyBuilder<String> stringKey(String name) {
     return key(name, String.class);
+  }
+
+  PrefKeyPath extendWithoutTracking(String newPathSegment) {
+    return new PrefKeyPath(mPath, newPathSegment);
+  }
+
+  <V> PrefKey<V> addChildKey(PrefKey<V> key) {
+    mChildKeys.add(key);
+    return key;
   }
 }

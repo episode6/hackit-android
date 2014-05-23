@@ -50,7 +50,7 @@ public class BaseWebViewFragment extends BaseFragment {
     // Whenever I try to inflate the webview like a normal person, it gets created in such a way that
     // it crashes every time I tap a spinner with a BadTokenException.
     // Creating the WebView programmatically and adding it to the view hierarchy this way works around the bug
-    // I'll probably create a subclass of WebView to fix this but too lazy right now
+    // I'll probably create a subclass of WebView/FrameLayout to fix this but too lazy right now
     FrameLayout webViewContainer = ButterKnife.findById(root, R.id.hackit_webview_container);
     mWebView = new WebView(context);
     webViewContainer.addView(mWebView);

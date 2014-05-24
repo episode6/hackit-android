@@ -8,6 +8,8 @@ android {
   }
 
   // Offer a way to drop in package name in manifest
+  // Copied from kcoppock's answer here:
+  // http://stackoverflow.com/questions/21109019/android-gradle-replace-package-name-for-a-value-in-manifest
   applicationVariants.all { variant ->
     // After processing the manifest, replace all instances of your tag
     // with the variant's actual package name.

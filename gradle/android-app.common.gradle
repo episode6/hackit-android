@@ -1,0 +1,12 @@
+android {
+  // Offer a way to drop in package name in manifest
+  applicationVariants.all { variant ->
+    // After processing the manifest, replace all instances of your tag
+    // with the variant's actual package name.
+    variant.processManifest << {
+      def manifestOutFile = variant.processManifest.manifestOutputFile
+      def newFileContents = manifestOutFile.getText('UTF-8').replace("_PACKAGENAME_", variant.packageName)
+      manifestOutFile.write(newFileContents, 'UTF-8')
+    }
+  }
+}

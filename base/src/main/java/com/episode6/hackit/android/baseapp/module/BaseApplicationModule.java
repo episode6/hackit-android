@@ -10,6 +10,7 @@ import com.episode6.hackit.android.extmodule.GsonModule;
 import com.episode6.hackit.android.extmodule.OttoBusModule;
 import com.episode6.hackit.android.preference.PrefModule;
 import com.episode6.hackit.android.util.UtilModule;
+import com.episode6.hackit.android.wakelock.WakeLockModule;
 
 import javax.inject.Singleton;
 
@@ -32,7 +33,8 @@ import dagger.Provides;
         OttoBusModule.class,
         UtilModule.class,
         AppMonitorModule.class,
-        PrefModule.class})
+        PrefModule.class,
+        WakeLockModule.class})
 public class BaseApplicationModule {
 
   @Provides

@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
+import android.os.PowerManager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
@@ -87,6 +88,11 @@ public class ContextScope {
   @Provides @Singleton
   AccountManager provideAccountManager(Context context) {
     return getSystemService(context, Context.ACCOUNT_SERVICE);
+  }
+
+  @Provides @Singleton
+  PowerManager providePowerManager(Context context) {
+    return getSystemService(context, Context.POWER_SERVICE);
   }
 
   @Provides @Singleton

@@ -1,4 +1,12 @@
 android {
+
+  buildTypes {
+    debug {
+      packageNameSuffix '.dev'
+      versionNameSuffix '-dev'
+    }
+  }
+
   // Offer a way to drop in package name in manifest
   applicationVariants.all { variant ->
     // After processing the manifest, replace all instances of your tag

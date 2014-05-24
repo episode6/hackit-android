@@ -11,27 +11,39 @@ public class InjectorContextWrapper extends ContextWrapper implements HasInjecto
 
   public static Context maybeWrapContext(Context baseContext, HasInjector hasInjector) {
     if (hasInjector instanceof HasInjectorScope) {
-      return new InjectorContextWrapper(baseContext, hasInjector.getInjector());
+      return new InjectorContextWrapper(baseContext, hasInjector);
     }
     return baseContext;
   }
 
   public static Context wrapContext(Context baseContext, HasInjectorScope hasInjector) {
-    return new InjectorContextWrapper(baseContext, hasInjector.getInjector());
+    return new InjectorContextWrapper(baseContext, hasInjector);
   }
 
-  private final Injector mInjector;
+  public static Context wrapContext(Context baseContext) {
+    return new InjectorContextWrapper(baseContext);
+  }
 
-  protected InjectorContextWrapper(Context base, Injector injector) {
+  private HasInjector mHasInjector;
+
+  protected InjectorContextWrapper(Context base) {
+    this(base, null);
+  }
+
+  protected InjectorContextWrapper(Context base, HasInjector injector) {
     super(base);
-    if (injector == null) {
-      throw new NullPointerException("Null injector passed to InjectorContextWrapper");
+    mHasInjector = injector;
+  }
+
+  public void setHasInjector(HasInjector injector) {
+    if (mHasInjector != null) {
+      throw new IllegalArgumentException("Already set mHasInjector on InjectorContextWrapper");
     }
-    mInjector = injector;
+    mHasInjector = injector;
   }
 
   @Override
   public Injector getInjector() {
-    return mInjector;
+    return mHasInjector.getInjector();
   }
 }

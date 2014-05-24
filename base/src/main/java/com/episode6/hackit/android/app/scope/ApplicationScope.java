@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
 
 import com.episode6.hackit.android.annotation.ForApplication;
+import com.episode6.hackit.android.app.AppInfo;
 
 import javax.inject.Singleton;
 
@@ -25,6 +26,19 @@ public class ApplicationScope {
 
   public ApplicationScope(Application application) {
     mApplication = application;
+  }
+
+  /**
+   * Override this in your own debug application module if you want
+   */
+  @Provides @Singleton
+  AppInfo provideDefaultAppInfo() {
+    return new AppInfo() {
+      @Override
+      public AppType getAppType() {
+        return AppType.RELEASE;
+      }
+    };
   }
 
   @Provides @Singleton

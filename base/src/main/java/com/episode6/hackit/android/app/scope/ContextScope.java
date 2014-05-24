@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.view.LayoutInflater;
+import android.view.WindowManager;
 
 import com.episode6.hackit.android.app.HasContext;
 
@@ -49,5 +50,10 @@ public class ContextScope {
   @Provides
   AssetManager provideAssetManager(Context context) {
     return context.getAssets();
+  }
+
+  @Provides
+  WindowManager provideWindowManager(Context context) {
+    return (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
   }
 }

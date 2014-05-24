@@ -1,14 +1,13 @@
 package com.episode6.hackit.android.baseapp.module;
 
 import com.episode6.hackit.android.annotation.TestAnnotation;
+import com.episode6.hackit.android.app.scope.ApplicationScope;
+import com.episode6.hackit.android.app.scope.ContextScope;
 import com.episode6.hackit.android.appmonitor.AppMonitorModule;
 import com.episode6.hackit.android.baseapp.component.BaseApplication;
 import com.episode6.hackit.android.baseapp.component.BaseBroadcastReceiver;
-import com.episode6.hackit.android.extmodule.AndroidModule;
 import com.episode6.hackit.android.extmodule.GsonModule;
 import com.episode6.hackit.android.extmodule.OttoBusModule;
-import com.episode6.hackit.android.app.scope.ApplicationScope;
-import com.episode6.hackit.android.app.scope.ContextScope;
 import com.episode6.hackit.android.preference.PrefModule;
 import com.episode6.hackit.android.util.UtilModule;
 
@@ -29,7 +28,6 @@ import dagger.Provides;
         ContextScope.class,
         ApplicationScope.class,
 
-        AndroidModule.class,
         GsonModule.class,
         OttoBusModule.class,
         UtilModule.class,

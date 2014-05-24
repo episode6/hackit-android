@@ -16,7 +16,6 @@ import dagger.Provides;
     library = true,
     includes = {
         ApplicationScope.class,
-        ContextScope.class,
         GsonModule.class})
 public class PrefModule {
 

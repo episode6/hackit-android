@@ -3,8 +3,9 @@ package com.episode6.hackit.android.app.scope;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.media.AudioManager;
 import android.preference.PreferenceManager;
 
 import com.episode6.hackit.android.annotation.ForApplication;
@@ -37,17 +38,26 @@ public class ApplicationScope {
   }
 
   @Provides @Singleton
-  SharedPreferences provideSharedPreferences(Application application) {
-    return PreferenceManager.getDefaultSharedPreferences(application);
+  SharedPreferences provideSharedPreferences(@ForApplication Context context) {
+    return PreferenceManager.getDefaultSharedPreferences(context);
   }
 
   @Provides @Singleton
-  PackageManager providePackageManager(Application application) {
-    return application.getPackageManager();
+  PackageManager providePackageManager(@ForApplication Context context) {
+    return context.getPackageManager();
   }
 
   @Provides @Singleton
-  AudioManager provideAudioManager(Application application) {
-    return (AudioManager) application.getSystemService(Context.AUDIO_SERVICE);
+  PackageInfo providePackageInfo(@ForApplication Context context, PackageManager packageManager) {
+    try {
+      return packageManager.getPackageInfo(context.getPackageName(), 0);
+    } catch (PackageManager.NameNotFoundException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Provides @Singleton
+  ApplicationInfo provideApplicationInfo(@ForApplication Context context) {
+    return context.getApplicationInfo();
   }
 }

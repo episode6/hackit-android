@@ -8,6 +8,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.PowerManager;
 import android.telephony.TelephonyManager;
@@ -44,6 +45,11 @@ public class ContextScope {
   @Provides @Singleton
   Context provideContext() {
     return mContext.getContext();
+  }
+
+  @Provides @Singleton
+  Resources provideResources(Context context) {
+    return context.getResources();
   }
 
   @Provides @Singleton

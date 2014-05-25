@@ -11,7 +11,7 @@ import javax.inject.Singleton;
 
 public class GsonPrefKey {
   public static class Key<T> extends AbstractPrefKey<T> {
-    Key(PrefKeyPath keyPath, Class<T> objectClass, @Nullable Provider<T> defaultInstanceProvider, boolean shouldCache) {
+    Key(PrefKeyPath keyPath, Class<T> objectClass, @Nullable PrefValueProvider<T> defaultInstanceProvider, boolean shouldCache) {
       super(keyPath, objectClass, defaultInstanceProvider, shouldCache);
     }
   }

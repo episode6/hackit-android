@@ -9,13 +9,13 @@ public class AbstractPrefKey<T> implements PrefKey<T> {
 
   private final PrefKeyPath mKeyPath;
   private final Class<T> mObjectClass;
-  private final @Nullable Provider<T> mDefaultInstanceProvider;
+  private final @Nullable PrefValueProvider<T> mDefaultInstanceProvider;
   private final boolean mShouldCache;
 
   AbstractPrefKey(
       PrefKeyPath keyPath,
       Class<T> objectClass,
-      @Nullable Provider<T> defaultInstanceProvider,
+      @Nullable PrefValueProvider<T> defaultInstanceProvider,
       boolean shouldCache) {
     mKeyPath = keyPath;
     mObjectClass = objectClass;
@@ -35,8 +35,8 @@ public class AbstractPrefKey<T> implements PrefKey<T> {
 
   @Nullable
   @Override
-  public T createDefaultObject() {
-    return mDefaultInstanceProvider == null ? null : mDefaultInstanceProvider.get();
+  public T createDefaultObject(PrefManager prefManager) {
+    return mDefaultInstanceProvider == null ? null : mDefaultInstanceProvider.createDefaultValue(prefManager);
   }
 
   @Override

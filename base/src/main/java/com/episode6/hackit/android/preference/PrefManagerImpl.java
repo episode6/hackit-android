@@ -51,7 +51,7 @@ public class PrefManagerImpl implements PrefManager {
       }
 
       if (!isPrefPresent(key)) {
-        V obj = key.createDefaultObject();
+        V obj = key.createDefaultObject(this);
         if (key.shouldCache()) {
           mPrefCache.put(key, obj);
         }

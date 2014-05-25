@@ -5,6 +5,6 @@ import javax.annotation.Nullable;
 public interface PrefKey<T> {
   PrefKeyPath getKeyPath();
   public Class<T> getObjectType();
-  @Nullable T createDefaultObject();
+  @Nullable T createDefaultObject(PrefManager prefManager);
   boolean shouldCache();
 }

@@ -4,6 +4,8 @@ import android.os.Build;
 
 import com.episode6.hackit.android.app.scope.ApplicationScope;
 
+import java.util.Random;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,5 +24,10 @@ public class UtilModule {
   @Provides @Singleton
   DeviceInfo provideDeviceInfo() {
     return new DeviceInfo(Build.VERSION.SDK_INT);
+  }
+
+  @Provides
+  Random provideRandom() {
+    return new Random();
   }
 }

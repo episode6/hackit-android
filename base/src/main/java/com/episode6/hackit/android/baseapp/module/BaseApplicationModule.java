@@ -6,6 +6,7 @@ import com.episode6.hackit.android.app.scope.ContextScope;
 import com.episode6.hackit.android.appmonitor.AppMonitorModule;
 import com.episode6.hackit.android.baseapp.component.BaseApplication;
 import com.episode6.hackit.android.baseapp.component.BaseBroadcastReceiver;
+import com.episode6.hackit.android.executor.ExecutorModule;
 import com.episode6.hackit.android.extmodule.GsonModule;
 import com.episode6.hackit.android.extmodule.OttoBusModule;
 import com.episode6.hackit.android.preference.PrefModule;
@@ -33,6 +34,7 @@ import dagger.Provides;
         OttoBusModule.class,
         UtilModule.class,
         AppMonitorModule.class,
+        ExecutorModule.class,
         PrefModule.class,
         WakeLockModule.class})
 public class BaseApplicationModule {

@@ -4,18 +4,24 @@ import com.episode6.hackit.android.util.StringFormat;
 
 import java.util.UUID;
 
+import javax.annotation.Nullable;
+
 public class WakeLockKey {
 
   public static WakeLockKey key(int flags) {
-    return new WakeLockKey(flags);
+    return new WakeLockKey(flags, null);
+  }
+
+  public static WakeLockKey key(int flags, Class<?> tag) {
+    return new WakeLockKey(flags, tag.getSimpleName());
   }
 
   private final int mFlags;
   private final String mTag;
 
-  WakeLockKey(int flags) {
+  WakeLockKey(int flags, @Nullable String tag) {
     mFlags = flags;
-    mTag = UUID.randomUUID().toString();
+    mTag = tag != null ? tag : UUID.randomUUID().toString();
   }
 
   public int getFlags() {

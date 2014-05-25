@@ -42,6 +42,11 @@ public class ApplicationScope {
   }
 
   @Provides @Singleton
+  AppInfo.AppType provideAppType(AppInfo appInfo) {
+    return appInfo.getAppType();
+  }
+
+  @Provides @Singleton
   Application provideApplication() {
     return mApplication;
   }

@@ -27,7 +27,8 @@ ext {
   ]
 
   uiDeps = [
-      picasso:"com.squareup.picasso:picasso:2.2.0"
+      picasso:"com.squareup.picasso:picasso:2.2.0",
+      nineOldAndroids:"com.nineoldandroids:library:2.4.0"
   ]
 
   androidSdks = [

@@ -3,6 +3,7 @@ package com.episode6.hackit.android.baseapp.module;
 import com.episode6.hackit.android.baseapp.component.BaseActionBarFragmentActivity;
 import com.episode6.hackit.android.app.scope.ActivityScope;
 import com.episode6.hackit.android.app.scope.ContextScope;
+import com.episode6.hackit.android.baseapp.component.BaseFragmentActivity;
 
 import dagger.Module;
 
@@ -12,7 +13,9 @@ import dagger.Module;
     includes = {
         ContextScope.class,
         ActivityScope.class},
-    injects = {BaseActionBarFragmentActivity.class})
+    injects = {
+        BaseFragmentActivity.class,
+        BaseActionBarFragmentActivity.class})
 public class BaseActivityModule {
 
 

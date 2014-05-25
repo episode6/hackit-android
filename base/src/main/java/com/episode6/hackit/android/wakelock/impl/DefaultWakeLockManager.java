@@ -33,6 +33,7 @@ public class DefaultWakeLockManager implements WakeLockManager {
 
     PowerManager.WakeLock wakeLock =
         mPowerManager.newWakeLock(key.getFlags(), key.getTag());
+    wakeLock.acquire();
     mAcquiredWakeLocks.put(key, wakeLock);
     return true;
   }

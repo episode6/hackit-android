@@ -61,8 +61,10 @@ public class ActivityCollectorImpl implements ActivityCollector {
   @Override
   public <T extends Activity> void loopCreatedActivities(Class<T> activityClass, Looper<T> looper) {
     for (Activity activity : getCreatedActivities().keySet()) {
-      if (activityClass.isInstance(activity)) {
-        looper.loop((T) activity);
+      if (activity != null && activityClass.isInstance(activity)) {
+        if (looper.loop((T) activity)) {
+          break;
+        }
       }
     }
   }
@@ -70,8 +72,10 @@ public class ActivityCollectorImpl implements ActivityCollector {
   @Override
   public <T extends Activity> void loopResumedActivities(Class<T> activityClass, Looper<T> looper) {
     for (Activity activity : getResumedActivities().keySet()) {
-      if (activityClass.isInstance(activity)) {
-        looper.loop((T) activity);
+      if (activity != null && activityClass.isInstance(activity)) {
+        if (looper.loop((T) activity)) {
+          break;
+        }
       }
     }
   }

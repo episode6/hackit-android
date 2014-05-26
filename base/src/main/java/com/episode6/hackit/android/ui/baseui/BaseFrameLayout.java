@@ -32,6 +32,7 @@ public class BaseFrameLayout extends FrameLayout implements HasInjector, HasCont
   private void initView(Context context, AttributeSet attrs, int defStyle) {
     getWrappedContext().setHasInjector(this);
     mInjector = Injectors.maybePlusFrom(getWrappedContext().getBaseContext(), this);
+    mInjector.inject(this);
 
     onInitView(attrs, defStyle);
   }

@@ -12,6 +12,7 @@ import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.PowerManager;
 import android.telephony.TelephonyManager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -50,6 +51,11 @@ public class ContextScope {
   @Provides @Singleton
   Resources provideResources(Context context) {
     return context.getResources();
+  }
+
+  @Provides
+  DisplayMetrics provideDisplayMetrics(Resources resources) {
+    return resources.getDisplayMetrics();
   }
 
   @Provides @Singleton

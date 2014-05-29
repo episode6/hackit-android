@@ -28,6 +28,7 @@ public class DefaultWakeLockManager implements WakeLockManager {
   public boolean acquire(WakeLockKey key) {
     Chop.d("Trying to acquire key: %s", key);
     if (isAcquired(key)) {
+      Chop.d("Already acquired wakelock for key: %s", key);
       return false;
     }
 
@@ -35,6 +36,7 @@ public class DefaultWakeLockManager implements WakeLockManager {
         mPowerManager.newWakeLock(key.getFlags(), key.getTag());
     wakeLock.acquire();
     mAcquiredWakeLocks.put(key, wakeLock);
+    Chop.d("WakeLock acquired: %s", key);
     return true;
   }
 
@@ -42,18 +44,18 @@ public class DefaultWakeLockManager implements WakeLockManager {
   public boolean release(WakeLockKey key) {
     Chop.d("Trying to release key: %s", key);
     if (!isAcquired(key)) {
+      Chop.d("Can't release wakelock cause we don't have key: %s", key);
       return false;
     }
 
     PowerManager.WakeLock wakeLock = mAcquiredWakeLocks.remove(key);
     wakeLock.release();
+    Chop.d("Wake lock released: %s", key);
     return true;
   }
 
   @Override
   public boolean isAcquired(WakeLockKey key) {
-    boolean rslt = mAcquiredWakeLocks.containsKey(key);
-    Chop.d("key: %s isAcquired: %s", key, String.valueOf(rslt));
-    return rslt;
+    return mAcquiredWakeLocks.containsKey(key);
   }
 }

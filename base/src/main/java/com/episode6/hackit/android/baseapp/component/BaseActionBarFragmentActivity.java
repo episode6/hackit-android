@@ -62,9 +62,11 @@ public abstract class BaseActionBarFragmentActivity extends ActionBarActivity
 
   @Override
   public void onBackPressed() {
-    if (getSupportFragmentManager().getFragments() != null) {
-      for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-        if (fragment.isResumed() &&
+    List<Fragment> fragments = getSupportFragmentManager().getFragments();
+    if (fragments != null && !fragments.isEmpty()) {
+      for (Fragment fragment : fragments) {
+        if (fragment != null &&
+            fragment.isResumed() &&
             fragment instanceof HandlesBackPress &&
             ((HandlesBackPress) fragment).handleBackPress()) {
           return;

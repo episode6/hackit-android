@@ -3,6 +3,7 @@ package com.episode6.hackit.android.baseapp.component;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.ProgressBar;
 
 import com.episode6.hackit.android.R;
 import com.episode6.hackit.android.util.DeviceInfo;
+import com.episode6.hackit.chop.Chop;
 
 import javax.annotation.Nullable;
 import javax.inject.Inject;
@@ -64,6 +66,33 @@ public class BaseWebViewFragment extends BaseFragment {
     mProgressBar = getView(R.id.hackit_progress);
 
     setUpWebView();
+  }
+
+  @Override
+  public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    if (savedInstanceState == null) {
+      onFirstLoad();
+    } else {
+      Chop.d("Restoring state");
+      mWebView.restoreState(savedInstanceState);
+    }
+  }
+
+  protected void onFirstLoad() {
+    Chop.d("onFirstLoad");
+    String url = getUrl();
+    if (TextUtils.isEmpty(url)) {
+      return;
+    }
+
+    loadUrl(url);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    mWebView.saveState(outState);
+    super.onSaveInstanceState(outState);
   }
 
   private void setUpWebView() {

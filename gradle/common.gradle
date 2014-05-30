@@ -22,8 +22,8 @@ ext {
   ]
 
   httpDeps = [
-      okHttp:"com.squareup.okhttp:okhttp:1.5.4",
-      retrofit:"com.squareup.retrofit:retrofit:1.5.0"
+      okHttp:"com.squareup.okhttp:okhttp:2.0.0-RC1",
+      retrofit:"com.squareup.retrofit:retrofit:1.5.1"
   ]
 
   uiDeps = [

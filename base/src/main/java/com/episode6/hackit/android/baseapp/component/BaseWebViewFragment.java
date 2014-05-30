@@ -113,11 +113,13 @@ public class BaseWebViewFragment extends BaseFragment {
         mProgressBar.setVisibility(View.VISIBLE);
         mProgressBar.setIndeterminate(true);
         mProgressBar.setProgress(0);
+        BaseWebViewFragment.this.onPageStarted(view, url, favicon);
       }
 
       @Override
       public void onPageFinished(WebView view, String url) {
         mProgressBar.setVisibility(View.GONE);
+        BaseWebViewFragment.this.onPageFinished(view, url);
       }
     });
 
@@ -164,5 +166,13 @@ public class BaseWebViewFragment extends BaseFragment {
       return true;
     }
     return false;
+  }
+
+  protected void onPageStarted(WebView view, String url, Bitmap favicon) {
+
+  }
+
+  protected void onPageFinished(WebView view, String url) {
+
   }
 }

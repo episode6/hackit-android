@@ -1,6 +1,6 @@
 ext {
   dagger_version = "1.2.1"
-  android_support_version = "19.0.1"
+  android_support_version = "19.1.0"
   chop_version = "0.1.4"
 
   commonDeps = [

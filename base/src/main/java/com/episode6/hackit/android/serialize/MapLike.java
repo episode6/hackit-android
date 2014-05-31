@@ -2,14 +2,17 @@ package com.episode6.hackit.android.serialize;
 
 import javax.annotation.Nullable;
 
-public final class MapLike {
+public interface MapLike<T> {
 
-  public interface Getter {
+  T getOriginal();
+
+  public interface Getter<V> extends MapLike<V> {
     boolean containsKey(String key);
     @Nullable String getString(String key);
   }
 
-  public interface Setter {
-    void putString(String key, @Nullable String value);
+  public interface Setter<V> extends MapLike<V> {
+    void putString(String key, String value);
+    void removeKey(String key);
   }
 }

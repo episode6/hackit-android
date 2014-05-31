@@ -1,21 +1,24 @@
-package com.episode6.hackit.android.preference;
+package com.episode6.hackit.android.typed.preference;
 
-public class PrefKeyBuilder<V> {
+import com.episode6.hackit.android.serialize.AbstractMapLikeKeyBuilder;
+import com.episode6.hackit.android.serialize.SerializeKey;
+
+public class PrefKeyBuilder<V> extends AbstractMapLikeKeyBuilder<V> {
 
   private final PrefKeyPath mBaseKeyPath;
   private final String mPrefName;
-  private final Class<V> mObjectType;
 
   private PrefValueProvider<V> mDefaultInstanceProvider = null;
   private boolean mShouldCache = false;
 
   PrefKeyBuilder(
+      SerializeKey<V> serializeKey,
       PrefKeyPath basePath,
-      String name,
-      Class<V> objectType) {
+      String name) {
+    super(serializeKey);
+
     mBaseKeyPath = basePath;
     mPrefName = name;
-    mObjectType = objectType;
   }
 
   public PrefKeyBuilder<V> defaultTo(final V defaultInstance) {
@@ -49,20 +52,12 @@ public class PrefKeyBuilder<V> {
     }
 
     PrefKeyPath keyPath = mBaseKeyPath.extendWithoutTracking(mPrefName);
-
-    if (BasicPrefKey.supportsObject(mObjectType)) {
-      return mBaseKeyPath.addChildKey(new BasicPrefKey.Key<V>(
-          keyPath,
-          mObjectType,
-          mDefaultInstanceProvider,
-          mShouldCache));
-    }
-
-    return mBaseKeyPath.addChildKey(new GsonPrefKey.Key<V>(
-        keyPath,
-        mObjectType,
-        mDefaultInstanceProvider,
-        mShouldCache));
+    return mBaseKeyPath.addChildKey(
+        new PrefKey<V>(
+            getSerializeKey(),
+            keyPath,
+            mDefaultInstanceProvider,
+            mShouldCache));
   }
 
   private static class SimpleDefaultValueProvider<V> implements PrefValueProvider<V> {

@@ -1,4 +1,4 @@
-package com.episode6.hackit.android.preference;
+package com.episode6.hackit.android.typed.preference;
 
 import com.google.common.collect.Maps;
 

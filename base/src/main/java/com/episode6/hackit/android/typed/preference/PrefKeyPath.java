@@ -1,8 +1,10 @@
-package com.episode6.hackit.android.preference;
+package com.episode6.hackit.android.typed.preference;
 
+import com.episode6.hackit.android.serialize.SerializeKey;
 import com.episode6.hackit.android.util.StringFormat;
 import com.episode6.hackit.chop.Chop;
 import com.google.common.collect.Sets;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.Set;
 
@@ -45,8 +47,8 @@ public class PrefKeyPath {
     Chop.d("Validating Preference path %s", mPath);
     Set<String> uniquePaths = Sets.newHashSet();
     for (PrefKey<?> key : mChildKeys) {
-      if (!uniquePaths.add(key.getKeyPath().getPath())) {
-        throw new IllegalArgumentException("Two keys with the same path: " + key.getKeyPath().getPath());
+      if (!uniquePaths.add(key.getKeyString())) {
+        throw new IllegalArgumentException("Two keys with the same path: " + key.getKeyString());
       }
     }
 
@@ -61,7 +63,11 @@ public class PrefKeyPath {
   }
 
   public <V> PrefKeyBuilder<V> key(String name, Class<V> type) {
-    return new PrefKeyBuilder<V>(this, name, type);
+    return new PrefKeyBuilder<V>(SerializeKey.newKey(type), this, name);
+  }
+
+  public <V> PrefKeyBuilder<V> genericKey(String name, TypeToken<V> typeToken) {
+    return new PrefKeyBuilder<V>(SerializeKey.newGenericKey(typeToken), this, name);
   }
 
   public PrefKeyBuilder<Boolean> boolKey(String name) {

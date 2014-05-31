@@ -1,12 +1,8 @@
-package com.episode6.hackit.android.preference;
-
-import android.content.SharedPreferences;
-import android.util.Pair;
+package com.episode6.hackit.android.typed.preference;
 
 import com.google.common.base.Optional;
-import com.google.common.collect.Lists;
 
-import java.util.List;
+import javax.annotation.Nullable;
 
 public interface PrefManager {
   public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
@@ -18,8 +14,8 @@ public interface PrefManager {
   public Editor edit();
 
   public interface Editor {
-    public <V> Editor put(PrefKey<V> key, V value);
-    public <V> Editor put(OptionalPrefKey<V> key, V value);
+    public <V> Editor put(PrefKey<V> key, @Nullable V value);
+    public <V> Editor put(OptionalPrefKey<V> key, @Nullable V value);
     public void commit();
   }
 }

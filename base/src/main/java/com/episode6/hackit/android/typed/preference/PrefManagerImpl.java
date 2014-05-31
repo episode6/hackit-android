@@ -1,8 +1,9 @@
-package com.episode6.hackit.android.preference;
+package com.episode6.hackit.android.typed.preference;
 
 import android.content.SharedPreferences;
 import android.util.Pair;
 
+import com.episode6.hackit.android.serialize.MapLikeTranslator;
 import com.episode6.hackit.chop.Chop;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
@@ -15,17 +16,19 @@ import javax.inject.Singleton;
 
 @Singleton
 public class PrefManagerImpl implements PrefManager {
-  private final SharedPreferences mSharedPreferences;
-  private final PrefKeyTranslatorSet mPrefKeyTranslatorSet;
+
+  private final SharedPrefsMapLikeWrapper mSharedPrefsWrapper;
+  private final MapLikeTranslator mMapLikeTranslator;
   private final PrefCache mPrefCache;
 
   @Inject
   public PrefManagerImpl(
-      SharedPreferences sharedPreferences,
-      PrefKeyTranslatorSet prefKeyTranslatorSet,
+      SharedPrefsMapLikeWrapper sharedPrefsMapLikeWrapper,
+      MapLikeTranslator mapLikeTranslator,
       PrefCache prefCache) {
-    mSharedPreferences = sharedPreferences;
-    mPrefKeyTranslatorSet = prefKeyTranslatorSet;
+
+    mSharedPrefsWrapper = sharedPrefsMapLikeWrapper;
+    mMapLikeTranslator = mapLikeTranslator;
     mPrefCache = prefCache;
   }
 
@@ -58,7 +61,7 @@ public class PrefManagerImpl implements PrefManager {
         return obj;
       }
 
-      V obj = (V) getTranslator(key).retrieveObject(key, mSharedPreferences, key.getKeyPath().getPath());
+      V obj = mMapLikeTranslator.get(mSharedPrefsWrapper, key);
       if (key.shouldCache()) {
         mPrefCache.put(key, obj);
       }
@@ -72,7 +75,7 @@ public class PrefManagerImpl implements PrefManager {
       if (key.shouldCache() && mPrefCache.contains(key)) {
         return true;
       }
-      return mSharedPreferences.contains(key.getKeyPath().getPath());
+      return mMapLikeTranslator.containsKey(mSharedPrefsWrapper, key);
     }
   }
 
@@ -83,36 +86,29 @@ public class PrefManagerImpl implements PrefManager {
 
   @Override
   public Editor edit() {
-    return new Editor(mSharedPreferences.edit());
+    return new Editor(mSharedPrefsWrapper.getOriginal().edit());
   }
 
   public class Editor implements PrefManager.Editor {
 
-    private final SharedPreferences.Editor mEditor;
+    private final SharedPrefsMapLikeWrapper.EditorMapLikeWrapper mEditor;
     private final List<Pair<PrefKey<?>, Object>> mCachedPuts = Lists.newLinkedList();
 
     Editor(SharedPreferences.Editor editor) {
-      mEditor = editor;
+      mEditor = new SharedPrefsMapLikeWrapper.EditorMapLikeWrapper(editor);
     }
 
     @Override
-    public <V> Editor put(PrefKey<V> key, V value) {
-      String sharedPrefKey = key.getKeyPath().getPath();
+    public <V> Editor put(PrefKey<V> key, @Nullable V value) {
       if (key.shouldCache()) {
         mCachedPuts.add(new Pair<PrefKey<?>, Object>(key, value));
       }
-
-      if (value == null) {
-        mEditor.remove(sharedPrefKey);
-        return this;
-      }
-
-      getTranslator(key).storeObject(key, value, mEditor, sharedPrefKey);
+      mMapLikeTranslator.set(mEditor, key, value);
       return this;
     }
 
     @Override
-    public <V> Editor put(OptionalPrefKey<V> key, V value) {
+    public <V> Editor put(OptionalPrefKey<V> key, @Nullable V value) {
       return put(key.getRealPrefKey(), value);
     }
 
@@ -122,13 +118,9 @@ public class PrefManagerImpl implements PrefManager {
         for (Pair<PrefKey<?>, Object> pair : mCachedPuts) {
           mPrefCache.put(pair.first, pair.second);
         }
-        mEditor.commit();
+        mEditor.getOriginal().commit();
       }
     }
-  }
-
-  private PrefKeyTranslator getTranslator(PrefKey<?> key) {
-    return mPrefKeyTranslatorSet.getTranslatorForKey(key);
   }
 
   private boolean isCached(PrefKey<?> key) {

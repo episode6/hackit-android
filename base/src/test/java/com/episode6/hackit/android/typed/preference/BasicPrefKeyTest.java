@@ -1,4 +1,4 @@
-package com.episode6.hackit.android.preference;
+package com.episode6.hackit.android.typed.preference;
 
 import com.episode6.hackit.android.testing.DefaultMockitoTest;
 import com.episode6.hackit.android.testing.DefaultTestRunner;

@@ -8,6 +8,6 @@ import javax.annotation.Nullable;
 
 public interface TypedBundle {
   <T> Optional<T> get(BundleKey<T> key);
-  <T> void set(BundleKey<T> key, @Nullable T value);
+  <T> TypedBundle set(BundleKey<T> key, @Nullable T value);
   Bundle getBundle();
 }

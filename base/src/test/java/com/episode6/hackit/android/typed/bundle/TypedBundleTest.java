@@ -15,8 +15,6 @@ import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.inject.Inject;
-
 import static org.fest.assertions.api.Assertions.assertThat;
 
 @RunWith(DefaultTestRunner.class)
@@ -26,22 +24,23 @@ public class TypedBundleTest extends DefaultMockitoTest {
   private static final BundleArgumentNamespace NAMESPACE
       = BundleArgumentNamespace.extendFrom(TypedBundleTest.class);
 
-  public static final BundleKey<String> STRING_BUNDLE_KEY
-      = NAMESPACE.newKey(String.class).named("test_string_key");
+  public static final BundleKey<String> STRING_BUNDLE_KEY = NAMESPACE
+      .newKey(String.class)
+      .named("test_string_key");
 
-  public static final BundleKey<Integer> INT_KEY
-      = NAMESPACE.newKey(Integer.class).named("int_key");
+  public static final BundleKey<Integer> INT_KEY = NAMESPACE
+      .newKey(Integer.class)
+      .named("int_key");
 
   @Test
   public void testKey() {
     Chop.d("String key path: %s", STRING_BUNDLE_KEY.getKeyString());
 
     TypedBundleWrapper wrapper = createBundleWrapper();
-
-    TypedBundle bundle = wrapper.newBundle();
-    bundle.set(STRING_BUNDLE_KEY, "Test String");
-
-    Bundle realBundle = bundle.getBundle();
+    
+    Bundle realBundle = wrapper.newBundle()
+        .set(STRING_BUNDLE_KEY, "Test String")
+        .getBundle();
 
     TypedBundle newWrapper = wrapper.wrapBundle(realBundle);
     String myString = newWrapper.get(STRING_BUNDLE_KEY).get();

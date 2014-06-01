@@ -36,8 +36,9 @@ public class TypedBundleWrapperImpl implements TypedBundleWrapper {
     }
 
     @Override
-    public <T> void set(BundleKey<T> key, @Nullable T value) {
+    public <T> TypedBundle set(BundleKey<T> key, @Nullable T value) {
       mMapLikeTranslator.set(mBundle, key, value);
+      return this;
     }
 
     @Override

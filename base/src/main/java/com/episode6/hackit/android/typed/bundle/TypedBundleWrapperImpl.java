@@ -22,6 +22,11 @@ public class TypedBundleWrapperImpl implements TypedBundleWrapper {
     return new TypedBundleImpl(bundle);
   }
 
+  @Override
+  public TypedBundle fromNullable(@Nullable Bundle bundle) {
+    return bundle == null ? newBundle() : wrapBundle(bundle);
+  }
+
   public class TypedBundleImpl implements TypedBundle {
 
     private final BundleMapLikeWrapper mBundle;

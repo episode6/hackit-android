@@ -37,7 +37,7 @@ public class TypedBundleTest extends DefaultMockitoTest {
     Chop.d("String key path: %s", STRING_BUNDLE_KEY.getKeyString());
 
     TypedBundleWrapper wrapper = createBundleWrapper();
-    
+
     Bundle realBundle = wrapper.newBundle()
         .set(STRING_BUNDLE_KEY, "Test String")
         .getBundle();

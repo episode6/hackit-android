@@ -19,6 +19,26 @@ public class SharedPrefsMapLikeWrapper implements MapLike.Getter<SharedPreferenc
     return mSharedPreferences.contains(key);
   }
 
+  @Override
+  public int getInt(String key) {
+    return mSharedPreferences.getInt(key, -1);
+  }
+
+  @Override
+  public float getFloat(String key) {
+    return mSharedPreferences.getFloat(key, -1f);
+  }
+
+  @Override
+  public boolean getBool(String key) {
+    return mSharedPreferences.getBoolean(key, false);
+  }
+
+  @Override
+  public long getLong(String key) {
+    return mSharedPreferences.getLong(key, -1L);
+  }
+
   @Nullable
   @Override
   public String getString(String key) {
@@ -36,6 +56,26 @@ public class SharedPrefsMapLikeWrapper implements MapLike.Getter<SharedPreferenc
 
     public EditorMapLikeWrapper(SharedPreferences.Editor editor) {
       mEditor = editor;
+    }
+
+    @Override
+    public void putInt(String key, int value) {
+      mEditor.putInt(key, value);
+    }
+
+    @Override
+    public void putFloat(String key, float value) {
+      mEditor.putFloat(key, value);
+    }
+
+    @Override
+    public void putBool(String key, boolean value) {
+      mEditor.putBoolean(key, value);
+    }
+
+    @Override
+    public void putLong(String key, long value) {
+      mEditor.putLong(key, value);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.episode6.hackit.android.typed.bundle;
 import android.os.Bundle;
 
 import com.episode6.hackit.android.serialize.MapLike;
+import com.google.common.base.Preconditions;
 
 import javax.annotation.Nullable;
 
@@ -11,7 +12,7 @@ public class BundleMapLikeWrapper implements MapLike.Getter<Bundle>, MapLike.Set
   private final Bundle mBundle;
 
   public BundleMapLikeWrapper(Bundle bundle) {
-    mBundle = bundle;
+    mBundle = Preconditions.checkNotNull(bundle, "Created BundleMapLikeWrapper with null bundle");
   }
 
   @Override

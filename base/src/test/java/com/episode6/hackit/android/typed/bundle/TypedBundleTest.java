@@ -10,10 +10,15 @@ import com.episode6.hackit.android.testing.DefaultMockitoTest;
 import com.episode6.hackit.android.testing.DefaultTestRunner;
 import com.episode6.hackit.chop.Chop;
 import com.google.common.base.Optional;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.List;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -32,17 +37,26 @@ public class TypedBundleTest extends DefaultMockitoTest {
       .newKey(Integer.class)
       .named("int_key");
 
+  public static final BundleKey<List<Integer>> INT_LIST_KEY = NAMESPACE
+      .newGenericKey(new TypeToken<List<Integer>>(){})
+      .named("int_list");
+
+  private TypedBundleWrapper mTypedBundleWrapper;
+
+  @Before
+  public void setup() {
+    mTypedBundleWrapper = createWrapper();
+  }
+
   @Test
   public void testKey() {
     Chop.d("String key path: %s", STRING_BUNDLE_KEY.getKeyString());
 
-    TypedBundleWrapper wrapper = createBundleWrapper();
-
-    Bundle realBundle = wrapper.newBundle()
+    Bundle realBundle = mTypedBundleWrapper.newBundle()
         .set(STRING_BUNDLE_KEY, "Test String")
         .getBundle();
 
-    TypedBundle newWrapper = wrapper.wrapBundle(realBundle);
+    TypedBundle newWrapper = mTypedBundleWrapper.wrapBundle(realBundle);
     String myString = newWrapper.get(STRING_BUNDLE_KEY).get();
 
     assertThat(myString)
@@ -56,8 +70,7 @@ public class TypedBundleTest extends DefaultMockitoTest {
 
     bundle.putInt(INT_KEY.getKeyString(), 12);
 
-    TypedBundleWrapper wrapper = createBundleWrapper();
-    TypedBundle bundle1 = wrapper.wrapBundle(bundle);
+    TypedBundle bundle1 = mTypedBundleWrapper.wrapBundle(bundle);
 
     Optional<Integer> outputInt = bundle1.get(INT_KEY);
 
@@ -66,7 +79,23 @@ public class TypedBundleTest extends DefaultMockitoTest {
         .isEqualTo(12);
   }
 
-  private TypedBundleWrapper createBundleWrapper() {
+  @Test
+  public void testGeneric() {
+    List<Integer> integerList = Lists.newArrayList(6, 5, 4, 3, 2, 1);
+    TypedBundle bundle = mTypedBundleWrapper.newBundle()
+        .set(INT_LIST_KEY, integerList);
+
+    Bundle rawBundle = bundle.getBundle();
+
+    TypedBundle outputBundle = mTypedBundleWrapper.wrapBundle(rawBundle);
+    Optional<List<Integer>> outputList = outputBundle.get(INT_LIST_KEY);
+
+    assertThat(outputList.isPresent()).isTrue();
+    assertThat(outputList.get())
+        .containsExactly(6, 5, 4, 3, 2, 1);
+  }
+
+  private TypedBundleWrapper createWrapper() {
     Serializer serializer = injectObjectWithMocks(GsonSerializer.class)
         .withInstance(Gson.class, new Gson())
         .create();

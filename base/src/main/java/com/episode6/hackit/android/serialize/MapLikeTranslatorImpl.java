@@ -21,13 +21,14 @@ public class MapLikeTranslatorImpl implements MapLikeTranslator {
       return null;
     }
 
-    Type type = key.getSerializeKey().getObjectType();
-    if (isPrimitive(type)) {
-      return (T) getPrimitive(mapGetter, type, keyString);
+    SerializeKey<T> serializeKey = key.getSerializeKey();
+    if (serializeKey.isPrimitive()) {
+      return serializeKey.castSafely(
+          getPrimitive(mapGetter, serializeKey, keyString));
     }
 
     String value = mapGetter.getString(keyString);
-    return mSerializer.deserialize(key.getSerializeKey(), value);
+    return mSerializer.deserialize(serializeKey, value);
   }
 
   @Override
@@ -38,50 +39,49 @@ public class MapLikeTranslatorImpl implements MapLikeTranslator {
       return;
     }
 
-    Type type = key.getSerializeKey().getObjectType();
-    if (isPrimitive(type)) {
-      setPrimitive(mapSetter, type, keyString, value);
+    SerializeKey<T> serializeKey = key.getSerializeKey();
+    if (serializeKey.isPrimitive()) {
+      setPrimitive(mapSetter, serializeKey, keyString, value);
       return;
     }
 
-    String serializedValue = mSerializer.serialize(key.getSerializeKey(), value);
+    String serializedValue = mSerializer.serialize(serializeKey, value);
     mapSetter.putString(keyString, serializedValue);
   }
 
-  private boolean isPrimitive(Type type) {
-    return type == Integer.class ||
-        type == Boolean.class ||
-        type == Float.class ||
-        type == Long.class ||
-        type == String.class;
-  }
-
-  private Object getPrimitive(MapLike.Getter getter, Type type, String key) {
-    if (type == Integer.class) {
-      return getter.getInt(key);
-    } else if (type == Boolean.class) {
-      return getter.getBool(key);
-    } else if (type == Float.class) {
-      return getter.getFloat(key);
-    } else if (type == Long.class) {
-      return getter.getLong(key);
-    } else if (type == String.class) {
-      return getter.getString(key);
+  private Object getPrimitive(MapLike.Getter getter, SerializeKey serializeKey, String key) {
+    switch (serializeKey.getPrimitiveType()) {
+      case BOOL:
+        return getter.getBool(key);
+      case INT:
+        return getter.getInt(key);
+      case LONG:
+        return getter.getLong(key);
+      case FLOAT:
+        return getter.getFloat(key);
+      case STRING:
+        return getter.getString(key);
     }
     return null;
   }
 
-  private void setPrimitive(MapLike.Setter setter, Type type, String key, Object value) {
-    if (type == Integer.class) {
-      setter.putInt(key, (Integer) value);
-    } else if (type == Boolean.class) {
-      setter.putBool(key, (Boolean) value);
-    } else if (type == Float.class) {
-      setter.putFloat(key, (Float) value);
-    } else if (type == Long.class) {
-      setter.putLong(key, (Long) value);
-    } else if (type == String.class) {
-      setter.putString(key, (String) value);
+  private void setPrimitive(MapLike.Setter setter, SerializeKey serializeKey, String key, Object value) {
+    switch (serializeKey.getPrimitiveType()) {
+      case BOOL:
+        setter.putBool(key, (Boolean) value);
+        break;
+      case INT:
+        setter.putInt(key, (Integer) value);
+        break;
+      case LONG:
+        setter.putLong(key, (Long) value);
+        break;
+      case FLOAT:
+        setter.putFloat(key, (Float) value);
+        break;
+      case STRING:
+        setter.putString(key, (String) value);
+        break;
     }
   }
 }

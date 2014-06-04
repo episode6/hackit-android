@@ -3,6 +3,7 @@ package com.episode6.hackit.android.typed.intent;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.episode6.hackit.android.serialize.MapLikeTranslator;
 import com.episode6.hackit.android.typed.bundle.BundleKey;
@@ -18,6 +19,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
 
   @Inject MapLikeTranslator mMapLikeTranslator;
   @Inject TypedBundleWrapper mTypedBundleWrapper;
+  @Inject ActionTranslator mActionTranslator;
 
 
   @Override
@@ -44,8 +46,13 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
+    public boolean hasAction() {
+      return !TextUtils.isEmpty(getActionString());
+    }
+
+    @Override
     public <T> T getAction(Class<T> actionEnumClass) {
-      return null;
+      return mActionTranslator.decodeAction(getActionString(), actionEnumClass);
     }
 
     @Override
@@ -55,9 +62,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
 
     @Override
     public TypedIntent setAction(Object action) {
-      if (action instanceof String) {
-        getIntent().setAction((String) action);
-      }
+      getIntent().setAction(mActionTranslator.encodeAction(action));
       return this;
     }
 

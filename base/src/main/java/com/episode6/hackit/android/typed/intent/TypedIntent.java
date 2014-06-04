@@ -12,6 +12,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 public interface TypedIntent {
+  boolean hasAction();
   <T> T getAction(Class<T> actionEnumClass);
   String getActionString();
   TypedIntent setAction(Object action);

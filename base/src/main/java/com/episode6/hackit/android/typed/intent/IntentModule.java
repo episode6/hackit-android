@@ -1,6 +1,7 @@
 package com.episode6.hackit.android.typed.intent;
 
 import com.episode6.hackit.android.app.scope.ApplicationScope;
+import com.episode6.hackit.android.extmodule.GsonModule;
 import com.episode6.hackit.android.serialize.SerializeModule;
 import com.episode6.hackit.android.typed.bundle.BundleModule;
 
@@ -13,11 +14,17 @@ import dagger.Provides;
         ApplicationScope.class,
 
         BundleModule.class,
-        SerializeModule.class})
+        SerializeModule.class,
+        GsonModule.class})
 public class IntentModule {
 
   @Provides
-  TypedIntentWrapper provideTypedIntentWrapper() {
-    return null;
+  TypedIntentWrapper provideTypedIntentWrapper(TypedIntentWrapperImpl typedIntentWrapper) {
+    return typedIntentWrapper;
+  }
+
+  @Provides
+  ActionTranslator provideActionTranslator(ActionTranslatorImpl actionTranslator) {
+    return actionTranslator;
   }
 }

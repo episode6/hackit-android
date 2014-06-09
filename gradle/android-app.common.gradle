@@ -2,7 +2,7 @@ android {
 
   buildTypes {
     debug {
-      packageNameSuffix '.dev'
+      applicationIdSuffix '.dev'
       versionNameSuffix '-dev'
     }
   }

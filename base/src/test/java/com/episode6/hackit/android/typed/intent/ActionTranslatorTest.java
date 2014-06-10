@@ -27,6 +27,10 @@ public class ActionTranslatorTest extends DefaultMockitoTest {
     THIRD_ACTION
   }
 
+  public enum WrongAction {
+    WRONG_ACTION
+  }
+
   private ActionTranslator mActionTranslator;
 
   @Before
@@ -75,6 +79,16 @@ public class ActionTranslatorTest extends DefaultMockitoTest {
         .isEqualTo(TestActionEnum.SECOND_ACTION);
     assertThat(thirdAction)
         .isEqualTo(TestActionEnum.THIRD_ACTION);
+  }
+
+  @Test
+  public void testIncorrectClass() {
+    String actionString = mActionTranslator.encodeAction(TestActionEnum.FIRST_ACTION);
+
+    WrongAction action = mActionTranslator.decodeAction(actionString, WrongAction.class);
+
+    assertThat(action)
+        .isNull();
   }
 
   private String testActionPrefix() {

@@ -51,7 +51,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public <T> T getAction(Class<T> actionEnumClass) {
+    public <T extends Enum> T getAction(Class<T> actionEnumClass) {
       return mActionTranslator.decodeAction(getActionString(), actionEnumClass);
     }
 
@@ -61,7 +61,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public TypedIntent setAction(Object action) {
+    public TypedIntent setAction(Enum action) {
       getIntent().setAction(mActionTranslator.encodeAction(action));
       return this;
     }
@@ -121,7 +121,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public Intent getIntent() {
+    public final Intent getIntent() {
       return mIntent.getOriginal();
     }
   }

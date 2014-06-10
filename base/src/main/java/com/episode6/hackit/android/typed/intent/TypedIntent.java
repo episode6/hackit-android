@@ -13,9 +13,9 @@ import javax.annotation.Nullable;
 
 public interface TypedIntent {
   boolean hasAction();
-  <T> T getAction(Class<T> actionEnumClass);
+  <T extends Enum> T getAction(Class<T> actionEnumClass);
   String getActionString();
-  TypedIntent setAction(Object action);
+  TypedIntent setAction(Enum action);
 
   Set<String> getCategories();
   TypedIntent addCategory(String category);

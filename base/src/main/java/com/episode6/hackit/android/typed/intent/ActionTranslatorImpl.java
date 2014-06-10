@@ -9,12 +9,12 @@ public class ActionTranslatorImpl implements ActionTranslator {
   @Inject Gson mGson;
 
   @Override
-  public <T> T decodeAction(String actionString, Class<T> actionEnumClass) {
+  public <T extends Enum> T decodeAction(String actionString, Class<T> actionEnumClass) {
     return null;
   }
 
   @Override
-  public String encodeAction(Object actionObject) {
+  public String encodeAction(Enum actionObject) {
     return null;
   }
 }

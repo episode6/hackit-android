@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.res.AssetManager;
@@ -116,6 +117,11 @@ public class ContextScope {
   @Provides @Singleton
   ClassLoader provideClassLoader(Context context) {
     return context.getClassLoader();
+  }
+
+  @Provides @Singleton
+  ContentResolver provideContentResolver(Context context) {
+    return context.getContentResolver();
   }
 
   @SuppressWarnings("unchecked")

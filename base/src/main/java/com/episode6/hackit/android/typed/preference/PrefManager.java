@@ -5,7 +5,6 @@ import com.google.common.base.Optional;
 import javax.annotation.Nullable;
 
 public interface PrefManager {
-  public static final PrefKeyPath ROOT_KEY_PATH = new PrefKeyPath("/");
 
   public <V> V load(PrefKey<V> key);
   public <V> Optional<V> load(OptionalPrefKey<V> key);

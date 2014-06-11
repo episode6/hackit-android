@@ -3,6 +3,6 @@ package com.episode6.hackit.android.serialize;
 import com.episode6.hackit.android.serialize.SerializeKey;
 
 public interface MapLikeKey<V> {
-  String getKeyString();
+  NamespacedKey getNameKey();
   SerializeKey<V> getSerializeKey();
 }

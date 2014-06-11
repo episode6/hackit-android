@@ -228,7 +228,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
 
     @Override
     public boolean hasExtra(BundleKey key) {
-      return getIntent().hasExtra(key.getKeyString());
+      return getIntent().hasExtra(key.getNameKey().toString());
     }
 
     @Override
@@ -293,7 +293,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
 
     @Override
     public TypedIntent removeExtra(BundleKey key) {
-      getIntent().removeExtra(key.getKeyString());
+      getIntent().removeExtra(key.getNameKey().toString());
       return this;
     }
 

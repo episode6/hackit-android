@@ -31,8 +31,8 @@ public class SerializeTest extends DefaultMockitoTest {
 
   @Test
   public void testKeyBuilder() {
-    SerializeKey<Integer> intKey = SerializeKey.newKey(Integer.class);
-    SerializeKey<List<Integer>> listKey = SerializeKey.newGenericKey(new TypeToken<List<Integer>>(){});
+    SerializeKey<Integer> intKey = SerializeKey.key(Integer.class);
+    SerializeKey<List<Integer>> listKey = SerializeKey.genericKey(new TypeToken<List<Integer>>() {});
 
     String serialized = mSerializer.serialize(intKey, 10);
     Chop.d("Serialized Int: %s", serialized);

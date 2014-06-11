@@ -1,7 +1,5 @@
 package com.episode6.hackit.android.serialize;
 
-import java.lang.reflect.Type;
-
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
@@ -11,12 +9,12 @@ public class MapLikeTranslatorImpl implements MapLikeTranslator {
 
   @Override
   public <T> boolean containsKey(MapLike.Getter mapGetter, MapLikeKey<T> key) {
-    return mapGetter.containsKey(key.getKeyString());
+    return mapGetter.containsKey(key.getNameKey().toString());
   }
 
   @Override
   public <T> T get(MapLike.Getter mapGetter, MapLikeKey<T> key) {
-    String keyString = key.getKeyString();
+    String keyString = key.getNameKey().toString();
     if (!mapGetter.containsKey(keyString)) {
       return null;
     }
@@ -33,7 +31,7 @@ public class MapLikeTranslatorImpl implements MapLikeTranslator {
 
   @Override
   public <T> void set(MapLike.Setter mapSetter, MapLikeKey<T> key, @Nullable T value) {
-    String keyString = key.getKeyString();
+    String keyString = key.getNameKey().toString();
     if (value == null) {
       mapSetter.removeKey(keyString);
       return;

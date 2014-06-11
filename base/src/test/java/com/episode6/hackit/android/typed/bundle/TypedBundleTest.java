@@ -25,9 +25,7 @@ import static org.fest.assertions.api.Assertions.assertThat;
 @RunWith(DefaultTestRunner.class)
 public class TypedBundleTest extends DefaultMockitoTest {
 
-
-  private static final BundleArgumentNamespace NAMESPACE
-      = BundleArgumentNamespace.extendFrom(TypedBundleTest.class);
+  private static final BundleNamespace NAMESPACE = BundleNamespace.fromClass(TypedBundleTest.class);
 
   public static final BundleKey<String> STRING_BUNDLE_KEY = NAMESPACE
       .newKey(String.class)
@@ -50,7 +48,7 @@ public class TypedBundleTest extends DefaultMockitoTest {
 
   @Test
   public void testKey() {
-    Chop.d("String key path: %s", STRING_BUNDLE_KEY.getKeyString());
+    Chop.d("String key path: %s", STRING_BUNDLE_KEY.getNameKey().toString());
 
     Bundle realBundle = mTypedBundleWrapper.newBundle()
         .set(STRING_BUNDLE_KEY, "Test String")
@@ -65,10 +63,10 @@ public class TypedBundleTest extends DefaultMockitoTest {
 
   @Test
   public void testKeyFromWrongSource() {
-    Chop.d("Int key path: %s", INT_KEY.getKeyString());
+    Chop.d("Int key path: %s", INT_KEY.getNameKey().toString());
     Bundle bundle = new Bundle();
 
-    bundle.putInt(INT_KEY.getKeyString(), 12);
+    bundle.putInt(INT_KEY.getNameKey().toString(), 12);
 
     TypedBundle bundle1 = mTypedBundleWrapper.wrapBundle(bundle);
 

@@ -1,17 +1,18 @@
 package com.episode6.hackit.android.serialize;
 
 import com.episode6.hackit.android.util.StringFormat;
+import com.google.common.base.Objects;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
 public final class SerializeKey<V> {
 
-  public static <T> SerializeKey<T> newKey(Class<T> clazz) {
+  public static <T> SerializeKey<T> key(Class<T> clazz) {
     return new SerializeKey<T>(clazz);
   }
 
-  public static <T> SerializeKey<T> newGenericKey(TypeToken<T> typeToken) {
+  public static <T> SerializeKey<T> genericKey(TypeToken<T> typeToken) {
     return new SerializeKey<T>(typeToken);
   }
 
@@ -110,6 +111,20 @@ public final class SerializeKey<V> {
       return (V) instance;
     }
     return null;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(
+        mType,
+        mRawType,
+        mKeyType,
+        mPrimitiveType);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    return o != null && hashCode() == o.hashCode();
   }
 
   @Override

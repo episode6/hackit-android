@@ -22,8 +22,7 @@ public class BaseApplication extends Application implements HasInjectorScope {
 
   /* Eager Singletons */
   @Inject ActivityCollector mActivityCollector;
-  @Inject
-  PrefManager mPrefManager;
+  @Inject PrefManager mPrefManager;
 
   private Injector mInjector;
 

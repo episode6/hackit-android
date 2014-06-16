@@ -110,6 +110,7 @@ public class BaseWebViewFragment extends BaseFragment {
     mWebView.setWebViewClient(new WebViewClient() {
       @Override
       public void onPageStarted(WebView view, String url, Bitmap favicon) {
+        Chop.d("Started Loading WebView for %s", url);
         mProgressBar.setVisibility(View.VISIBLE);
         mProgressBar.setIndeterminate(true);
         mProgressBar.setProgress(0);
@@ -118,6 +119,7 @@ public class BaseWebViewFragment extends BaseFragment {
 
       @Override
       public void onPageFinished(WebView view, String url) {
+        Chop.d("Finished Loading WebView for %s", url);
         mProgressBar.setVisibility(View.GONE);
         BaseWebViewFragment.this.onPageFinished(view, url);
       }

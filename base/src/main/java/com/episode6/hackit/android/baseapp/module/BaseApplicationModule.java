@@ -8,9 +8,8 @@ import com.episode6.hackit.android.baseapp.component.BaseApplication;
 import com.episode6.hackit.android.baseapp.component.BaseBroadcastReceiver;
 import com.episode6.hackit.android.executor.ExecutorModule;
 import com.episode6.hackit.android.extmodule.GsonModule;
-import com.episode6.hackit.android.extmodule.OttoBusModule;
+import com.episode6.hackit.android.bus.OttoBusModule;
 import com.episode6.hackit.android.typed.TypedModule;
-import com.episode6.hackit.android.typed.preference.PrefModule;
 import com.episode6.hackit.android.util.UtilModule;
 import com.episode6.hackit.android.wakelock.WakeLockModule;
 

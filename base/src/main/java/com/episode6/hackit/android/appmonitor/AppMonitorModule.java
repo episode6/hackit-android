@@ -1,7 +1,7 @@
 package com.episode6.hackit.android.appmonitor;
 
 import com.episode6.hackit.android.app.scope.ApplicationScope;
-import com.episode6.hackit.android.extmodule.OttoBusModule;
+import com.episode6.hackit.android.bus.OttoBusModule;
 import com.episode6.hackit.android.util.UtilModule;
 
 import javax.inject.Singleton;

@@ -15,6 +15,7 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @RunWith(DefaultTestRunner.class)
@@ -92,12 +93,23 @@ public class MapLikeTranslatorTest extends DefaultMockitoTest {
   @Test
   public void testGetPrimitives() {
     when(mGetter.containsKey(anyString())).thenReturn(true);
+    when(mGetter.getBool("bool")).thenReturn(true);
+    when(mGetter.getInt("int")).thenReturn(10);
+    when(mGetter.getFloat("float")).thenReturn(11f);
+    when(mGetter.getLong("long")).thenReturn(12L);
+    when(mGetter.getString("string")).thenReturn("13");
 
-    mMapLikeTranslator.get(mGetter, BOOL_KEY);
-    mMapLikeTranslator.get(mGetter, INT_KEY);
-    mMapLikeTranslator.get(mGetter, FLOAT_KEY);
-    mMapLikeTranslator.get(mGetter, LONG_KEY);
-    mMapLikeTranslator.get(mGetter, STRING_KEY);
+    boolean boolResult = mMapLikeTranslator.get(mGetter, BOOL_KEY);
+    int intResult = mMapLikeTranslator.get(mGetter, INT_KEY);
+    float floatResult = mMapLikeTranslator.get(mGetter, FLOAT_KEY);
+    long longResult = mMapLikeTranslator.get(mGetter, LONG_KEY);
+    String stringResult = mMapLikeTranslator.get(mGetter, STRING_KEY);
+
+    assertThat(boolResult).isTrue();
+    assertThat(intResult).isEqualTo(10);
+    assertThat(floatResult).isEqualTo(11f);
+    assertThat(longResult).isEqualTo(12L);
+    assertThat(stringResult).isEqualTo("13");
 
     verify(mGetter, times(5)).containsKey(anyString());
 
@@ -111,14 +123,32 @@ public class MapLikeTranslatorTest extends DefaultMockitoTest {
   }
 
   @Test
+  public void testGetNonExistentObject() {
+    when(mGetter.containsKey(anyString())).thenReturn(false);
+
+    TestClassToSerialize testResult = mMapLikeTranslator.get(mGetter, OBJECT_KEY);
+
+    assertThat(testResult).isNull();
+
+    verify(mGetter).containsKey("obj");
+    verifyNoMoreInteractions(mGetter, mSerializer);
+  }
+
+  @Test
   public void testGetNonExistentPrimitives() {
     when(mGetter.containsKey(anyString())).thenReturn(false);
 
-    mMapLikeTranslator.get(mGetter, BOOL_KEY);
-    mMapLikeTranslator.get(mGetter, INT_KEY);
-    mMapLikeTranslator.get(mGetter, FLOAT_KEY);
-    mMapLikeTranslator.get(mGetter, LONG_KEY);
-    mMapLikeTranslator.get(mGetter, STRING_KEY);
+    Boolean boolResult = mMapLikeTranslator.get(mGetter, BOOL_KEY);
+    Integer intResult = mMapLikeTranslator.get(mGetter, INT_KEY);
+    Float floatResult = mMapLikeTranslator.get(mGetter, FLOAT_KEY);
+    Long longResult = mMapLikeTranslator.get(mGetter, LONG_KEY);
+    String stringResult = mMapLikeTranslator.get(mGetter, STRING_KEY);
+
+    assertThat(boolResult).isNull();
+    assertThat(intResult).isNull();
+    assertThat(floatResult).isNull();
+    assertThat(longResult).isNull();
+    assertThat(stringResult).isNull();
 
     InOrder inOrder = inOrder(mSerializer, mGetter);
     inOrder.verify(mGetter).containsKey("bool");
@@ -126,6 +156,19 @@ public class MapLikeTranslatorTest extends DefaultMockitoTest {
     inOrder.verify(mGetter).containsKey("float");
     inOrder.verify(mGetter).containsKey("long");
     inOrder.verify(mGetter).containsKey("string");
+    inOrder.verifyNoMoreInteractions();
+  }
+
+  @Test
+  public void testSetNulls() {
+    mMapLikeTranslator.set(mSetter, OBJECT_KEY, null);
+    mMapLikeTranslator.set(mSetter, INT_KEY, null);
+    mMapLikeTranslator.set(mSetter, STRING_KEY, null);
+
+    InOrder inOrder = inOrder(mSerializer, mSetter);
+    inOrder.verify(mSetter).removeKey("obj");
+    inOrder.verify(mSetter).removeKey("int");
+    inOrder.verify(mSetter).removeKey("string");
     inOrder.verifyNoMoreInteractions();
   }
 

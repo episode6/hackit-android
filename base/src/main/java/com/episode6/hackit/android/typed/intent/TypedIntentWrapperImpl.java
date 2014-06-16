@@ -296,5 +296,15 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     public final Intent getIntent() {
       return mIntent.getOriginal();
     }
+
+    @Override
+    public void startAsActivity(Context context) {
+      context.startActivity(getIntent());
+    }
+
+    @Override
+    public void startAsService(Context context) {
+      context.startService(getIntent());
+    }
   }
 }

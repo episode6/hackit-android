@@ -72,4 +72,7 @@ public interface TypedIntent {
   TypedIntent removeExtra(BundleKey key);
 
   Intent getIntent();
+
+  void startAsActivity(Context context);
+  void startAsService(Context context);
 }

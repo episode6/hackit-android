@@ -59,7 +59,7 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public <T extends Enum> T getAction(Class<T> actionEnumClass) {
+    public @Nullable <T extends Enum> T getAction(Class<T> actionEnumClass) {
       return mActionTranslator.decodeAction(getActionString(), actionEnumClass);
     }
 

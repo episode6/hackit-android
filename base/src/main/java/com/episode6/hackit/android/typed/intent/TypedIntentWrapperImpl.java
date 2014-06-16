@@ -8,13 +8,13 @@ import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 
 import com.episode6.hackit.android.serialize.MapLikeTranslator;
 import com.episode6.hackit.android.typed.bundle.BundleKey;
 import com.episode6.hackit.android.typed.bundle.TypedBundle;
 import com.episode6.hackit.android.typed.bundle.TypedBundleWrapper;
 import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.Set;
 
@@ -54,18 +54,13 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public boolean hasAction() {
-      return !TextUtils.isEmpty(getActionString());
+    public <T extends Enum> Optional<T> getAction(Class<T> actionEnumClass) {
+      return Optional.fromNullable(mActionTranslator.decodeAction(getIntent().getAction(), actionEnumClass));
     }
 
     @Override
-    public @Nullable <T extends Enum> T getAction(Class<T> actionEnumClass) {
-      return mActionTranslator.decodeAction(getActionString(), actionEnumClass);
-    }
-
-    @Override
-    public String getActionString() {
-      return getIntent().getAction();
+    public Optional<String> getActionString() {
+      return Optional.fromNullable(getIntent().getAction());
     }
 
     @Override
@@ -86,7 +81,11 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
 
     @Override
     public Set<String> getCategories() {
-      return getIntent().getCategories();
+      Set<String> categories = getIntent().getCategories();
+      if (categories == null) {
+        return ImmutableSet.of();
+      }
+      return categories;
     }
 
     @Override
@@ -102,8 +101,8 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public ComponentName getComponent() {
-      return getIntent().getComponent();
+    public Optional<ComponentName> getComponent() {
+      return Optional.fromNullable(getIntent().getComponent());
     }
 
     @Override
@@ -136,18 +135,13 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public boolean hasData() {
-      return getData() != null;
+    public Optional<Uri> getData() {
+      return Optional.fromNullable(getIntent().getData());
     }
 
     @Override
-    public Uri getData() {
-      return getIntent().getData();
-    }
-
-    @Override
-    public String getDataString() {
-      return getIntent().getDataString();
+    public Optional<String> getDataString() {
+      return Optional.fromNullable(getIntent().getDataString());
     }
 
     @Override
@@ -174,8 +168,8 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public String getPackage() {
-      return getIntent().getPackage();
+    public Optional<String> getPackage() {
+      return Optional.fromNullable(getIntent().getPackage());
     }
 
     @Override
@@ -185,13 +179,13 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public String getScheme() {
-      return getIntent().getScheme();
+    public Optional<String> getScheme() {
+      return Optional.fromNullable(getIntent().getScheme());
     }
 
     @Override
-    public Rect getSourceBounds() {
-      return getIntent().getSourceBounds();
+    public Optional<Rect> getSourceBounds() {
+      return Optional.fromNullable(getIntent().getSourceBounds());
     }
 
     @Override
@@ -201,8 +195,8 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public String getType() {
-      return getIntent().getType();
+    public Optional<String> getType() {
+      return Optional.fromNullable(getIntent().getType());
     }
 
     @Override

@@ -16,9 +16,8 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 public interface TypedIntent {
-  boolean hasAction();
-  @Nullable <T extends Enum> T getAction(Class<T> actionEnumClass);
-  String getActionString();
+  <T extends Enum> Optional<T> getAction(Class<T> actionEnumClass);
+  Optional<String> getActionString();
   TypedIntent setAction(Enum action);
   TypedIntent setAction(String actionString);
 
@@ -27,31 +26,30 @@ public interface TypedIntent {
   TypedIntent addCategory(String category);
   TypedIntent removeCategory(String category);
 
-  ComponentName getComponent();
+  Optional<ComponentName> getComponent();
   ComponentName resolveComponent();
   TypedIntent setClass(Context packageContext, Class<?> cls);
   TypedIntent setClassName(Context packageContext, String className);
   TypedIntent setClassName(String packageName, String className);
   TypedIntent setComponent(ComponentName component);
 
-  boolean hasData();
-  Uri getData();
-  String getDataString();
+  Optional<Uri> getData();
+  Optional<String> getDataString();
   TypedIntent setData(Uri data);
 
   int getFlags();
   TypedIntent addFlags(int flags);
   TypedIntent setFlags(int flags);
 
-  String getPackage();
+  Optional<String> getPackage();
   TypedIntent setPackage(String packageString);
 
-  String getScheme();
+  Optional<String> getScheme();
 
-  Rect getSourceBounds();
+  Optional<Rect> getSourceBounds();
   TypedIntent setSourceBounds(Rect sourceBounds);
 
-  String getType();
+  Optional<String> getType();
   String resolveType();
   TypedIntent setType(String type);
 

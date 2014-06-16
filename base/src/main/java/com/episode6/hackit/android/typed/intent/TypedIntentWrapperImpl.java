@@ -14,6 +14,7 @@ import com.episode6.hackit.android.serialize.MapLikeTranslator;
 import com.episode6.hackit.android.typed.bundle.BundleKey;
 import com.episode6.hackit.android.typed.bundle.TypedBundle;
 import com.episode6.hackit.android.typed.bundle.TypedBundleWrapper;
+import com.google.common.base.Optional;
 
 import java.util.Set;
 
@@ -281,8 +282,8 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
-    public <T> T getExtra(BundleKey<T> key) {
-      return mMapLikeTranslator.get(mIntent, key);
+    public <T> Optional<T> getExtra(BundleKey<T> key) {
+      return Optional.fromNullable(mMapLikeTranslator.get(mIntent, key));
     }
 
     @Override

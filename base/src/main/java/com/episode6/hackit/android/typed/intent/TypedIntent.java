@@ -9,6 +9,7 @@ import android.os.Bundle;
 
 import com.episode6.hackit.android.typed.bundle.BundleKey;
 import com.episode6.hackit.android.typed.bundle.TypedBundle;
+import com.google.common.base.Optional;
 
 import java.util.Set;
 
@@ -68,7 +69,7 @@ public interface TypedIntent {
   TypedIntent replaceExtras(Bundle bundle);
   TypedIntent replaceExtras(TypedIntent intent);
   TypedIntent replaceExtras(Intent intent);
-  <T> T getExtra(BundleKey<T> key);
+  <T> Optional<T> getExtra(BundleKey<T> key);
   <T> TypedIntent putExtra(BundleKey<T> key, @Nullable T value);
   TypedIntent removeExtra(BundleKey key);
 

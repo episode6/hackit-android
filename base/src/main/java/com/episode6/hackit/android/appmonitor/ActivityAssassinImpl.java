@@ -18,7 +18,9 @@ public class ActivityAssassinImpl implements ActivityAssassin {
   }
 
   @Override
-  public void finishActivities(final Function<Activity, Boolean> shouldFinish) {
+  public boolean finishActivities(final Function<Activity, Boolean> shouldFinish) {
+    final BoolTracker boolTracker = new BoolTracker(false);
+
     mActivityCollector.loopCreatedActivities(
         Activity.class,
         new ActivityCollector.Looper<Activity>() {
@@ -28,24 +30,34 @@ public class ActivityAssassinImpl implements ActivityAssassin {
                 !activity.isFinishing() &&
                 shouldFinish.apply(activity)) {
               activity.finish();
+              boolTracker.mBoolean = true;
             }
             return false;
           }
         });
+    return boolTracker.mBoolean;
   }
 
   @Override
-  public void finishAllActivities() {
-    finishActivities(BoolFunctions.<Activity>alwaysTrue());
+  public boolean finishAllActivities() {
+    return finishActivities(BoolFunctions.<Activity>alwaysTrue());
   }
 
   @Override
-  public void finishAllActivitiesExcept(final Activity instance) {
-    finishActivities(BoolFunctions.isNotSame(instance));
+  public boolean finishAllActivitiesExcept(final Activity instance) {
+    return finishActivities(BoolFunctions.isNotSame(instance));
   }
 
   @Override
-  public void finishAllActivitiesExcept(final Class<?> activityClass) {
-    finishActivities(BoolFunctions.<Activity>isNotInstanceOf(activityClass));
+  public boolean finishAllActivitiesExcept(final Class<?> activityClass) {
+    return finishActivities(BoolFunctions.<Activity>isNotInstanceOf(activityClass));
+  }
+
+  private static class BoolTracker {
+    boolean mBoolean;
+
+    BoolTracker(boolean startValue) {
+      mBoolean = startValue;
+    }
   }
 }

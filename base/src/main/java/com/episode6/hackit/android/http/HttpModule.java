@@ -4,6 +4,8 @@ import android.app.Application;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
+import com.squareup.okhttp.OkHttpClient;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -31,5 +33,10 @@ public class HttpModule {
   @Provides
   CookieManager provideDefaultCookieManager() {
     return CookieManager.getInstance();
+  }
+
+  @Provides
+  OkHttpClient provideDefaultOkHttpClient() {
+    return new OkHttpClient();
   }
 }

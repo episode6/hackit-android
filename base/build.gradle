@@ -33,6 +33,9 @@ dependencies {
   compile(commonDeps.butterKnife) {
     transitive = true
   }
+  compile(httpDeps.okHttp) {
+    transitive = true
+  }
   compile(commonDeps.guava) {
     transitive = true
   }

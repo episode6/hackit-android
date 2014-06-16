@@ -43,7 +43,7 @@ public class IntentMapLikeWrapper implements MapLike.Getter<Intent>, MapLike.Set
   @Nullable
   @Override
   public String getString(String key) {
-    return null;
+    return mIntent.getStringExtra(key);
   }
 
   @Override

@@ -2,6 +2,7 @@ package com.episode6.hackit.android.app.scope;
 
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
@@ -112,6 +113,11 @@ public class ContextScope {
   @Provides @Singleton
   KeyguardManager provideKeyguardManager(Context context) {
     return getSystemService(context, Context.KEYGUARD_SERVICE);
+  }
+
+  @Provides @Singleton
+  AlarmManager provideAlarmManager(Context context) {
+    return getSystemService(context, Context.ALARM_SERVICE);
   }
 
   @Provides @Singleton

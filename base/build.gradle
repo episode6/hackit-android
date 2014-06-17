@@ -36,6 +36,9 @@ dependencies {
   compile(httpDeps.okHttp) {
     transitive = true
   }
+  compile(httpDeps.okHttpUrlConnection) {
+    transitive = true
+  }
   compile(commonDeps.guava) {
     transitive = true
   }

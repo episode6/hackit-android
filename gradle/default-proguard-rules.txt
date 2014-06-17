@@ -20,7 +20,17 @@
     @com.squareup.otto.Produce public *;
 }
 
+# okio
 -dontwarn okio.**
+
+# okhttp
+-keep class com.squareup.okhttp.** { *; }
+-keep interface com.squareup.okhttp.** { *; }
+-dontwarn com.squareup.okhttp.internal.**
+
+# Retrofit
+-keep class retrofit.** { *; }
+-dontwarn retrofit.**
 
 # Dagger
 -keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault,*Annotation*

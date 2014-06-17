@@ -4,6 +4,7 @@ import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Application;
+import android.app.DownloadManager;
 import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.content.ContentResolver;
@@ -118,6 +119,11 @@ public class ContextScope {
   @Provides @Singleton
   AlarmManager provideAlarmManager(Context context) {
     return getSystemService(context, Context.ALARM_SERVICE);
+  }
+
+  @Provides @Singleton
+  DownloadManager provideDownloadManager(Context context) {
+    return getSystemService(context, Context.DOWNLOAD_SERVICE);
   }
 
   @Provides @Singleton

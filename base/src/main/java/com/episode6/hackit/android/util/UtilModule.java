@@ -30,4 +30,9 @@ public class UtilModule {
   Random provideRandom() {
     return new Random();
   }
+
+  @Provides @Singleton
+  Toaster providerDefaultToaster(ToasterImpl toaster) {
+    return toaster;
+  }
 }

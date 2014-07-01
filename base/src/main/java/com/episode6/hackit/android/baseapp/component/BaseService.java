@@ -31,6 +31,12 @@ public class BaseService extends Service implements HasInjectorScope {
   }
 
   @Override
+  public void onDestroy() {
+    mInjector = null;
+    super.onDestroy();
+  }
+
+  @Override
   public List<Object> getModules() {
     return ImmutableList.of(
         new ContextScope(this),

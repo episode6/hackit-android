@@ -19,10 +19,4 @@ public class MediaModule {
   MediaRecorder provideMediaRecorder() {
     return new MediaRecorder();
   }
-
-  @Provides
-  CameraProvider provideCameraProvider() {
-    return new CameraProvider();
-  }
-
 }

@@ -2,6 +2,7 @@ package com.episode6.hackit.android.media.camera;
 
 import android.hardware.Camera;
 
+import com.episode6.hackit.chop.Chop;
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -50,8 +51,13 @@ public class CameraManagerImpl implements CameraManager {
 
     Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
     Camera.getCameraInfo(0, cameraInfo);
-    Camera camera = Camera.open(0);
-    return wrapAndTrack(new CameraAndInfo(camera, cameraInfo, this));
+    try {
+      Camera camera = Camera.open(0);
+      return wrapAndTrack(new CameraAndInfo(camera, cameraInfo, this));
+    } catch (Throwable t) {
+      Chop.e(t, "Failed to open camera");
+      return Optional.absent();
+    }
   }
 
   @Override
@@ -71,14 +77,20 @@ public class CameraManagerImpl implements CameraManager {
       }
     }
 
+
     int numberOfCameras = Camera.getNumberOfCameras();
     Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
     for (int i = 0; i < numberOfCameras; i++) {
       Camera.getCameraInfo(i, cameraInfo);
       if (cameraInfo.facing == facing) {
-        return new CameraAndInfo(Camera.open(i), cameraInfo, this);
+        try {
+          return new CameraAndInfo(Camera.open(i), cameraInfo, this);
+        } catch (Throwable t) {
+          Chop.e(t, "Failed to open camera");
+        }
       }
     }
+
     return null;
   }
 }

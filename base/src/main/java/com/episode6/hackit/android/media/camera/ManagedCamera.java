@@ -13,7 +13,6 @@ public class ManagedCamera extends ForwardingCameraLike {
 
   @Override
   public void release() {
-    super.release();
-    mCameraManager.markReleased(getRawCamera());
+    mCameraManager.maybeRelease(getRawCamera());
   }
 }

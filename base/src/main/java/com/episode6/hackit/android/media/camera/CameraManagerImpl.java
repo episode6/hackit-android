@@ -7,6 +7,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -18,8 +19,7 @@ public class CameraManagerImpl implements CameraManager {
 
   private final Set<CameraAndInfo> mOpenCameras = Sets.newHashSet();
 
-  @Inject
-  CameraManagerImpl() {}
+  @Inject DeferredCameraReleaseManager mDeferredCameraReleaseManager;
 
   private Optional<CameraAndInfo> wrapAndTrack(CameraAndInfo cameraAndInfo) {
     if (cameraAndInfo != null) {
@@ -61,13 +61,19 @@ public class CameraManagerImpl implements CameraManager {
   }
 
   @Override
-  public void markReleased(CameraAndInfo cameraAndInfo) {
-    mOpenCameras.remove(cameraAndInfo);
-  }
+  public void maybeRelease(Camera camera) {
+    Chop.d("Maybe release camera: %s", camera);
+    if (removeCamera(camera)) {
+      Chop.d("Found camera in open cameras cache");
+    } else {
+      Chop.e("Could not find camera! WTF!");
+    }
 
-  @Override
-  public void markReleased(Camera camera) {
-    mOpenCameras.remove(camera);
+    mDeferredCameraReleaseManager.deferCameraRelease(camera);
+
+    if (mOpenCameras.isEmpty()) {
+      mDeferredCameraReleaseManager.releaseAllNow();
+    }
   }
 
   private @Nullable CameraAndInfo findCameraFacing(int facing) {
@@ -92,5 +98,17 @@ public class CameraManagerImpl implements CameraManager {
     }
 
     return null;
+  }
+
+  private boolean removeCamera(Camera camera) {
+    Iterator<CameraAndInfo> iterator = mOpenCameras.iterator();
+    while (iterator.hasNext()) {
+      CameraAndInfo cameraAndInfo = iterator.next();
+      if (cameraAndInfo.getCamera().getRawCamera() == camera) {
+        iterator.remove();
+        return true;
+      }
+    }
+    return false;
   }
 }

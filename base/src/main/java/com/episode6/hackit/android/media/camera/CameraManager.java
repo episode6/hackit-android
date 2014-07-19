@@ -10,6 +10,5 @@ public interface CameraManager {
   public Optional<CameraAndInfo> getFrontFacingCamera();
   public Optional<CameraAndInfo> getAnyCamera();
 
-  public void markReleased(CameraAndInfo cameraAndInfo);
-  public void markReleased(Camera camera);
+  public void maybeRelease(Camera camera);
 }

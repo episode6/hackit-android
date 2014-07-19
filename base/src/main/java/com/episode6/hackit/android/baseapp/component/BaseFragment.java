@@ -11,6 +11,8 @@ import com.episode6.hackit.android.app.HasContext;
 import com.episode6.hackit.android.app.events.FragmentEvents;
 import com.episode6.hackit.android.inject.InjectorContextWrapper;
 import com.episode6.hackit.android.inject.Injectors;
+import com.episode6.hackit.android.typed.bundle.TypedBundle;
+import com.episode6.hackit.android.typed.bundle.TypedBundleWrapper;
 import com.episode6.hackit.inject.HasInjector;
 import com.episode6.hackit.inject.Injector;
 import com.google.common.base.Optional;
@@ -33,6 +35,9 @@ public abstract class BaseFragment extends Fragment implements HasInjector, HasC
 
   @Inject protected LayoutInflater mLayoutInflater;
   @Inject protected Bus mBus;
+  @Inject TypedBundleWrapper mTypedBundleWrapper;
+
+  private TypedBundle mWrappedArguments;
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -114,5 +119,12 @@ public abstract class BaseFragment extends Fragment implements HasInjector, HasC
   @SuppressWarnings("unchecked")
   private @Nullable <T extends View> T getViewInternal(int viewId) {
     return (T) getView().findViewById(viewId);
+  }
+
+  public TypedBundle getWrappedArguments() {
+    if (mWrappedArguments == null) {
+      mWrappedArguments = mTypedBundleWrapper.wrapBundle(getArguments());
+    }
+    return mWrappedArguments;
   }
 }

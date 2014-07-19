@@ -11,6 +11,7 @@ import android.os.Bundle;
 
 import com.episode6.hackit.android.serialize.MapLikeTranslator;
 import com.episode6.hackit.android.typed.bundle.BundleKey;
+import com.episode6.hackit.android.typed.bundle.DefaultableBundleKey;
 import com.episode6.hackit.android.typed.bundle.TypedBundle;
 import com.episode6.hackit.android.typed.bundle.TypedBundleWrapper;
 import com.google.common.base.Optional;
@@ -227,6 +228,11 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     }
 
     @Override
+    public boolean hasExtra(DefaultableBundleKey key) {
+      return hasExtra(key.getRealKey());
+    }
+
+    @Override
     public TypedBundle getExtras() {
       return mTypedBundleWrapper.wrapBundle(getIntent().getExtras());
     }
@@ -290,6 +296,25 @@ public class TypedIntentWrapperImpl implements TypedIntentWrapper {
     public TypedIntent removeExtra(BundleKey key) {
       getIntent().removeExtra(key.getNameKey().toString());
       return this;
+    }
+
+    @Override
+    public <T> T getExtra(DefaultableBundleKey<T> key) {
+      @Nullable T result = mMapLikeTranslator.get(mIntent, key.getRealKey());
+      if (result != null) {
+        return result;
+      }
+      return key.getDefaultValue();
+    }
+
+    @Override
+    public <T> TypedIntent putExtra(DefaultableBundleKey<T> key, @Nullable T value) {
+      return putExtra(key.getRealKey(), value);
+    }
+
+    @Override
+    public TypedIntent removeExtra(DefaultableBundleKey key) {
+      return removeExtra(key.getRealKey());
     }
 
     @Override

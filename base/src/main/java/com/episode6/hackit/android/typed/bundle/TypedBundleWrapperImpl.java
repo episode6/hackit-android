@@ -47,6 +47,20 @@ public class TypedBundleWrapperImpl implements TypedBundleWrapper {
     }
 
     @Override
+    public <T> T get(DefaultableBundleKey<T> key) {
+      @Nullable T result = mMapLikeTranslator.get(mBundle, key.getRealKey());
+      if (result != null) {
+        return result;
+      }
+      return key.getDefaultValue();
+    }
+
+    @Override
+    public <T> TypedBundle set(DefaultableBundleKey<T> key, @Nullable T value) {
+      return set(key.getRealKey(), value);
+    }
+
+    @Override
     public Bundle getBundle() {
       return mBundle.getOriginal();
     }

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import com.episode6.hackit.android.typed.bundle.BundleKey;
+import com.episode6.hackit.android.typed.bundle.DefaultableBundleKey;
 import com.episode6.hackit.android.typed.bundle.TypedBundle;
 import com.google.common.base.Optional;
 
@@ -58,6 +59,7 @@ public interface TypedIntent {
   TypedIntent setExtrasClassLoader(ClassLoader classLoader);
 
   boolean hasExtra(BundleKey key);
+  boolean hasExtra(DefaultableBundleKey key);
   TypedBundle getExtras();
   TypedIntent putExtras(TypedBundle bundle);
   TypedIntent putExtras(Bundle bundle);
@@ -70,6 +72,9 @@ public interface TypedIntent {
   <T> Optional<T> getExtra(BundleKey<T> key);
   <T> TypedIntent putExtra(BundleKey<T> key, @Nullable T value);
   TypedIntent removeExtra(BundleKey key);
+  <T> T getExtra(DefaultableBundleKey<T> key);
+  <T> TypedIntent putExtra(DefaultableBundleKey<T> key, @Nullable T value);
+  TypedIntent removeExtra(DefaultableBundleKey key);
 
   Intent getIntent();
 

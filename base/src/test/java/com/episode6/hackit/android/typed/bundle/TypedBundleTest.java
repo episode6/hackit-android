@@ -29,15 +29,15 @@ public class TypedBundleTest extends DefaultMockitoTest {
 
   public static final BundleKey<String> STRING_BUNDLE_KEY = NAMESPACE
       .newKey(String.class)
-      .named("test_string_key");
+      .named("test_string_key").build();
 
   public static final BundleKey<Integer> INT_KEY = NAMESPACE
       .newKey(Integer.class)
-      .named("int_key");
+      .named("int_key").build();
 
   public static final BundleKey<List<Integer>> INT_LIST_KEY = NAMESPACE
       .newGenericKey(new TypeToken<List<Integer>>(){})
-      .named("int_list");
+      .named("int_list").build();
 
   private TypedBundleWrapper mTypedBundleWrapper;
 

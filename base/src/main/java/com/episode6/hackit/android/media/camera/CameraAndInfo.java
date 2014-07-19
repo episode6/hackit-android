@@ -3,15 +3,15 @@ package com.episode6.hackit.android.media.camera;
 import android.hardware.Camera;
 
 public class CameraAndInfo {
-  private final Camera mCamera;
+  private final CameraLike mCamera;
   private final Camera.CameraInfo mCameraInfo;
 
   public CameraAndInfo(Camera camera, Camera.CameraInfo info) {
-    mCamera = camera;
+    mCamera = new ForwardingCameraLike(camera);
     mCameraInfo = info;
   }
 
-  public Camera getCamera() {
+  public CameraLike getCamera() {
     return mCamera;
   }
 

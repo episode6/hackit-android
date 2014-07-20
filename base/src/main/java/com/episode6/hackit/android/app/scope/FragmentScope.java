@@ -2,6 +2,7 @@ package com.episode6.hackit.android.app.scope;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 
 import com.episode6.hackit.android.annotation.ForFragment;
 
@@ -23,8 +24,7 @@ public class FragmentScope {
     mFragment = fragment;
   }
 
-  @Provides
-  @Singleton
+  @Provides @Singleton
   Fragment provideFragment() {
     return mFragment;
   }
@@ -32,5 +32,10 @@ public class FragmentScope {
   @Provides @Singleton @ForFragment
   Context provideContext(Context context) {
     return context;
+  }
+
+  @Provides @Singleton @ForFragment
+  FragmentManager provideChildFragmentManager(Fragment fragment) {
+    return fragment.getChildFragmentManager();
   }
 }

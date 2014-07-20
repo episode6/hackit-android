@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.episode6.hackit.android.app.events.ActivityEvents;
 import com.episode6.hackit.android.app.scope.ActivityScope;
 import com.episode6.hackit.android.app.scope.ContextScope;
+import com.episode6.hackit.android.app.scope.FragmentActivityScope;
 import com.episode6.hackit.android.baseapp.module.BaseActivityModule;
 import com.episode6.hackit.android.inject.Injectors;
 import com.episode6.hackit.inject.HasInjectorScope;
@@ -52,6 +53,7 @@ public class BaseFragmentActivity extends FragmentActivity implements HasInjecto
     return ImmutableList.of(
         new ContextScope(this),
         new ActivityScope(this),
+        new FragmentActivityScope(this),
         new BaseActivityModule());
   }
 

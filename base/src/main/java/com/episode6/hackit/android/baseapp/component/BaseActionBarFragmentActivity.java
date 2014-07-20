@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.episode6.hackit.android.app.events.ActivityEvents;
+import com.episode6.hackit.android.app.scope.FragmentActivityScope;
 import com.episode6.hackit.android.baseapp.module.BaseActivityModule;
 import com.episode6.hackit.inject.HasInjectorScope;
 import com.episode6.hackit.inject.Injector;
@@ -57,6 +58,7 @@ public abstract class BaseActionBarFragmentActivity extends ActionBarActivity
     return ImmutableList.of(
         new ContextScope(this),
         new ActivityScope(this),
+        new FragmentActivityScope(this),
         new BaseActivityModule());
   }
 

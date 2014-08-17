@@ -118,6 +118,18 @@ public class BaseWebViewFragment extends BaseFragment {
       }
 
       @Override
+      public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        Chop.d("shouldOverrideUrlLoading for %s", url);
+        return BaseWebViewFragment.this.shouldOverrideUrlLoading(view, url);
+      }
+
+      @Override
+      public void onLoadResource(WebView view, String url) {
+        Chop.d("onLoadResource for %s", url);
+        BaseWebViewFragment.this.onLoadResource(view, url);
+      }
+
+      @Override
       public void onPageFinished(WebView view, String url) {
         Chop.d("Finished Loading WebView for %s", url);
         mProgressBar.setVisibility(View.GONE);
@@ -175,6 +187,14 @@ public class BaseWebViewFragment extends BaseFragment {
   }
 
   protected void onPageFinished(WebView view, String url) {
+
+  }
+
+  protected boolean shouldOverrideUrlLoading(WebView view, String url) {
+    return false;
+  }
+
+  protected void onLoadResource(WebView view, String url) {
 
   }
 }

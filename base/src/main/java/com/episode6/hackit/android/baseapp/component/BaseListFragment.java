@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -41,7 +42,26 @@ public class BaseListFragment extends BaseFragment {
       LayoutInflater inflater,
       ViewGroup container,
       Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.hackit_list_fragment, container, false);
+    FrameLayout rootView =
+        (FrameLayout) inflater.inflate(R.layout.hackit_list_fragment, container, false);
+    ListView listView = onCreateListView(context, inflater, rootView, savedInstanceState);
+    listView.setId(R.id.list);
+    rootView.addView(listView, 0);
+    return rootView;
+  }
+
+  /**
+   * Override just this method to use a custom ListView class without needing your own xml
+   * NOTE: it's id will be set to @id/list
+   */
+  protected ListView onCreateListView(
+      Context context,
+      LayoutInflater inflater,
+      ViewGroup container,
+      Bundle savedInstanceState) {
+    ListView listView = new ListView(context);
+    listView.setLayoutParams(container.generateLayoutParams(null));
+    return listView;
   }
 
   @Override

@@ -24,10 +24,11 @@ public class BaseApplication extends Application implements HasInjectorScope {
   @Inject ActivityCollector mActivityCollector;
   @Inject PrefManager mPrefManager;
 
-  private Injector mInjector;
+  private final Injector mInjector;
 
   public BaseApplication() {
     super();
+    mInjector = Injectors.createFrom(this);
   }
 
   public BaseApplication(final Context context) {
@@ -47,9 +48,7 @@ public class BaseApplication extends Application implements HasInjectorScope {
 
   @Override
   public void onCreate() {
-    mInjector = Injectors.createFrom(this);
     getInjector().inject(this);
-
     super.onCreate();
   }
 

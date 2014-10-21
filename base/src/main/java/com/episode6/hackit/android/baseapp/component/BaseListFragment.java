@@ -45,6 +45,9 @@ public class BaseListFragment extends BaseFragment {
     FrameLayout rootView =
         (FrameLayout) inflater.inflate(R.layout.hackit_list_fragment, container, false);
     ListView listView = onCreateListView(context, inflater, rootView, savedInstanceState);
+    listView.setLayoutParams(new FrameLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.MATCH_PARENT));
     listView.setId(R.id.list);
     rootView.addView(listView, 0);
     return rootView;
@@ -59,9 +62,7 @@ public class BaseListFragment extends BaseFragment {
       LayoutInflater inflater,
       ViewGroup container,
       Bundle savedInstanceState) {
-    ListView listView = new ListView(context);
-    listView.setLayoutParams(container.generateLayoutParams(null));
-    return listView;
+    return new ListView(context);
   }
 
   @Override

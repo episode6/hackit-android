@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.util.Pair;
 
 import com.episode6.hackit.android.serialize.MapLikeTranslator;
-import com.episode6.hackit.chop.Chop;
 import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 
@@ -46,10 +45,10 @@ public class PrefManagerImpl implements PrefManager {
     return Optional.fromNullable(loadInternal(key.getRealPrefKey()));
   }
 
+  @SuppressWarnings("unchecked")
   public @Nullable <V> V loadInternal(PrefKey<V> key) {
     synchronized (mPrefCache) {
       if (key.shouldCache() && isCached(key)) {
-        Chop.d("Cache hit for: %s", key);
         return (V) mPrefCache.get(key);
       }
 

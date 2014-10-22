@@ -121,6 +121,10 @@ public abstract class BaseFragment extends Fragment implements HasInjector, HasC
     return (T) getView().findViewById(viewId);
   }
 
+  public TypedBundleWrapper getTypedBundleWrapper() {
+    return mTypedBundleWrapper;
+  }
+
   public TypedBundle getWrappedArguments() {
     if (mWrappedArguments == null) {
       mWrappedArguments = mTypedBundleWrapper.wrapBundle(getArguments());

@@ -2,21 +2,8 @@ android {
 
   buildTypes {
     debug {
-      packageNameSuffix '.dev'
+      applicationIdSuffix '.dev'
       versionNameSuffix '-dev'
-    }
-  }
-
-  // Offer a way to drop in package name in manifest
-  // Copied from kcoppock's answer here:
-  // http://stackoverflow.com/questions/21109019/android-gradle-replace-package-name-for-a-value-in-manifest
-  applicationVariants.all { variant ->
-    // After processing the manifest, replace all instances of your tag
-    // with the variant's actual package name.
-    variant.processManifest << {
-      def manifestOutFile = variant.processManifest.manifestOutputFile
-      def newFileContents = manifestOutFile.getText('UTF-8').replace("_PACKAGENAME_", variant.packageName)
-      manifestOutFile.write(newFileContents, 'UTF-8')
     }
   }
 }

@@ -1,6 +1,6 @@
 apply plugin: 'android-library'
 apply from: "${rootDir}/hackit-android/gradle/android.common.gradle"
-apply from: "${rootDir}/hackit-android/gradle/robolectric.test.gradle"
+//apply from: "${rootDir}/hackit-android/gradle/robolectric.test.gradle"
 
 android {
 
@@ -10,7 +10,7 @@ android {
   }
   buildTypes {
     release {
-      runProguard false
+      minifyEnabled false
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
     }
   }
